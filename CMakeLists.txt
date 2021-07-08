@@ -7,7 +7,11 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(asd_box main.cpp)
 
-find_package(OpenGL)
-#find_package()
+find_package(OpenGL REQUIRED)
 
-target_include_directories(asd_box PRIVATE ${OPENGL_INCLUDE_DIRS} )
+add_subdirectory(submodules/glfw)
+add_subdirectory(submodules/glad)
+
+target_include_directories(asd_box PRIVATE ${OPENGL_INCLUDE_DIRS})
+
+target_link_libraries(asd_box PRIVATE glfw glad)
