@@ -5,7 +5,7 @@ project(asd_box VERSION 1.0
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(asd_box main.cpp)
+add_executable(asd_box main.cpp systems/graphics_system.cpp systems/graphics_system.h game.cpp game.h)
 
 find_package(OpenGL REQUIRED)
 
