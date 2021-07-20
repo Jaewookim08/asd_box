@@ -42,17 +42,6 @@ struct test{
 };
 
 int main(int argc, char* argv[]) {
-    std::cout << 1 << '\n';
-    test a{1};
-    std::cout << 2 << '\n';
-    test b = test{2};
-    std::cout << 3 << '\n';
-    auto c = test{3};
-    std::cout << 4 << '\n';
-
-    auto ai = std::atomic<int>{};
-    return 0;
-
     init_glfw();
 
     GLFWwindow* window = glfwCreateWindow(initial_screen_width, initial_screen_height, "Hello World!", nullptr,
