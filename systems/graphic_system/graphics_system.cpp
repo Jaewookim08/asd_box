@@ -30,3 +30,7 @@ void asd_box::graphics_system::render() {
     glClearColor(0.f, 1.f, 1.f, 1.f);
     glClear(GL_COLOR_BUFFER_BIT);
 }
+
+void asd_box::graphics_system::update(float dt) {
+
+}

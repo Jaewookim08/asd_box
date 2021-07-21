@@ -9,10 +9,11 @@
 #include <string>
 #include "systems/graphic_system/graphics_system.h"
 
+
 namespace asd_box {
     class game {
     public:
-        game() = default;
+        game();
 
         game(const game& other) = delete;
 
@@ -35,6 +36,7 @@ namespace asd_box {
     private:
 
         graphics_system m_graphics_system;
+
     };
 }
 

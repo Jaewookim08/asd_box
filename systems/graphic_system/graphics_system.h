@@ -20,6 +20,8 @@ namespace asd_box {
 
         void framebuffer_size_event(int width, int height);
 
+        void update(float dt);
+
         void render();
     };
 }

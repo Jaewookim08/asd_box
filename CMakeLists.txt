@@ -5,7 +5,7 @@ project(asd_box VERSION 1.0
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(asd_box main.cpp systems/graphic_system/graphics_system.cpp systems/graphic_system/graphics_system.h game.cpp game.h )
+ add_executable(asd_box main.cpp systems/graphic_system/graphics_system.cpp systems/graphic_system/graphics_system.h game.cpp game.h components/transform.cpp components/transform.h)
 
 find_package(OpenGL REQUIRED)
 
@@ -15,4 +15,4 @@ add_subdirectory(submodules/glm)
 
 target_include_directories(asd_box PRIVATE ${OPENGL_INCLUDE_DIRS})
 
-target_link_libraries(asd_box PRIVATE glfw glad)
+target_link_libraries(asd_box PRIVATE glfw glad glm)

@@ -12,7 +12,7 @@
 #include "game.h"
 //#include "resource_manager.h"
 #include <iostream>
-#include <atomic>
+#include <cassert>
 
 
 // GLFW function declarations
@@ -26,20 +26,6 @@ static constexpr unsigned int initial_screen_width = 800;
 static constexpr unsigned int initial_screen_height = 600;
 
 asd_box::game* running_game;
-
-struct test{
-    int m_i;
-    test(){
-        std::cout << "Constructed" << std::endl;
-    }
-    test(int i): m_i{i}{
-        std::cout << "Constructed i" << std::endl;
-    }
-    test(const test& other) = delete;
-    test(test&& other) = delete;
-    test& operator = (const test& other) = delete;
-    test& operator = (test&&) = delete;
-};
 
 int main(int argc, char* argv[]) {
     init_glfw();
@@ -96,6 +82,7 @@ void init_glfw() {
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+    assert(running_game != nullptr);
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
@@ -103,5 +90,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    assert(running_game != nullptr);
     running_game->framebuffer_size_event(width, height);
 }

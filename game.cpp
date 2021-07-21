@@ -33,7 +33,7 @@ void asd_box::game::framebuffer_size_event(int width, int height) {
 }
 
 void asd_box::game::update(float delta_time) {
-
+    m_graphics_system.update(delta_time);
 }
 
 void asd_box::game::initialize_screen(int initial_screen_width, int initial_screen_height) {
@@ -42,5 +42,9 @@ void asd_box::game::initialize_screen(int initial_screen_width, int initial_scre
 
 void asd_box::game::render() {
     m_graphics_system.render();
+}
+
+asd_box::game::game() {
+
 }
 
