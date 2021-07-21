@@ -12,7 +12,8 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(submodules/glfw)
 add_subdirectory(submodules/glad)
 add_subdirectory(submodules/glm)
+add_subdirectory(submodules/entt)
 
 target_include_directories(asd_box PRIVATE ${OPENGL_INCLUDE_DIRS})
 
-target_link_libraries(asd_box PRIVATE glfw glad glm)
+target_link_libraries(asd_box PRIVATE glfw glad glm EnTT::EnTT)
