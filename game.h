@@ -8,7 +8,7 @@
 
 #include <string>
 #include "systems/graphic_system/graphics_system.h"
-
+#include <entt/entt.hpp>
 
 namespace asd_box {
     class game {
@@ -25,6 +25,8 @@ namespace asd_box {
 
         void initialize_screen(int initial_screen_width, int initial_screen_height);
 
+        void generate_test_entities();
+
         void key_event(int key, int scancode, int action, int mode);
 
         void framebuffer_size_event(int width, int height);
@@ -36,7 +38,7 @@ namespace asd_box {
     private:
 
         graphics_system m_graphics_system;
-
+        entt::registry m_registry;
     };
 }
 

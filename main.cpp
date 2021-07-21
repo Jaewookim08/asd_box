@@ -35,6 +35,7 @@ int main(int argc, char* argv[]) {
     glfwMakeContextCurrent(window);
 
     auto game = asd_box::game{};
+    game.generate_test_entities();
     running_game = &game;
     running_game->initialize_screen(initial_screen_width, initial_screen_height);
 

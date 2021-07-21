@@ -9,12 +9,13 @@
 #include <GLFW/glfw3.h>
 
 #include <string>
+#include <entt/entt.hpp>
 
 namespace asd_box {
 
     class graphics_system {
     public:
-        graphics_system();
+        explicit graphics_system(entt::registry& registry);
 
         void initialize_gl(int initial_screen_width, int initial_screen_height);
 
@@ -23,6 +24,8 @@ namespace asd_box {
         void update(float dt);
 
         void render();
+    private:
+        entt::registry& m_registry;
     };
 }
 

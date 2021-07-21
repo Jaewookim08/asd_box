@@ -3,6 +3,8 @@
 //
 
 #include "game.h"
+#include "components/transform.h"
+#include "components/triangle_renderer.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -44,7 +46,18 @@ void asd_box::game::render() {
     m_graphics_system.render();
 }
 
-asd_box::game::game() {
+void asd_box::game::generate_test_entities() {
+    using namespace asd_box;
+    auto entity1 = m_registry.create();
+    m_registry.emplace<transform>(entity1, transform{.translation = {0, 0, 0}});
+    m_registry.emplace<triangle_renderer>(entity1, triangle_renderer{.triangle={glm::vec<3, float>{1.f, 0.f, 0.f},
+                                                                                {0.f, 1.f, 0.f},
+                                                                                {0.f, 0.f, 0.f}}, .color={1.f, 0.f,
+                                                                                                          0.f}});
+}
+
+asd_box::game::game() : m_registry{}, m_graphics_system{m_registry} {
 
 }
+
 

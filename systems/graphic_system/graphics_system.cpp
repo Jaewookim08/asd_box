@@ -8,7 +8,7 @@
 
 using asd_box::graphics_system;
 
-asd_box::graphics_system::graphics_system() {
+asd_box::graphics_system::graphics_system(entt::registry& registry): m_registry{registry} {
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         throw std::runtime_error("Failed to initialize GLAD");
     }
@@ -34,3 +34,4 @@ void asd_box::graphics_system::render() {
 void asd_box::graphics_system::update(float dt) {
 
 }
+
