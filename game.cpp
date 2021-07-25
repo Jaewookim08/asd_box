@@ -58,7 +58,8 @@ void asd_box::game::generate_test_entities() {
                                                                                     {0.f, 0.f, 0.f}}, .color={1.f, 0.f,
                                                                                                               0.f}});
 
-        m_registry.emplace<sprite_renderer>(entity1, sprite_renderer{"assets/awesomeface.png"});
+        m_registry.emplace<sprite_renderer>(entity1,
+                                            sprite_renderer{"assets/awesomeface.png", glm::vec<4, float>{0.f, 1.f, 0.f, 0.2f}});
     }
 }
 

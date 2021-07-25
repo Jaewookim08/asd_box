@@ -26,6 +26,8 @@ asd_box::graphics_system::graphics_system(entt::registry& registry, Shader simpl
         m_draw_texture_vao{gl_generate_vertex_arrays()} {
 
 
+    stbi_set_flip_vertically_on_load(true);
+
     {
         // make test triangle
         glBindVertexArray(m_test_triangle_vao);
@@ -139,6 +141,7 @@ void asd_box::graphics_system::render() {
             glBindTexture(GL_TEXTURE_2D, texture_handle->texture_id);
 
             m_texture_shader.use();
+            m_texture_shader.setVec4("color", sprite_renderer.color);
             glBindVertexArray(m_draw_texture_vao);
 
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
