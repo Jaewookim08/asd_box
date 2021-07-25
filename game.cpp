@@ -39,7 +39,7 @@ void asd_box::game::update(float delta_time) {
 }
 
 void asd_box::game::initialize_screen(int initial_screen_width, int initial_screen_height) {
-    m_graphics_system.initialize_gl(initial_screen_width, initial_screen_height);
+    m_graphics_system.initialize_gl_settings(initial_screen_width, initial_screen_height);
 }
 
 void asd_box::game::render() {
@@ -56,8 +56,9 @@ void asd_box::game::generate_test_entities() {
                                                                                                           0.f}});
 }
 
-asd_box::game::game() : m_registry{}, m_graphics_system{m_registry} {
-
+asd_box::game::game()
+        : m_registry{},
+          m_graphics_system{m_registry, Shader{simple_triangle_vshader_name, simple_triangle_fshader_name}} {
 }
 
 

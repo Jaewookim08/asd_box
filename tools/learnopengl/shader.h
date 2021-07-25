@@ -55,8 +55,9 @@ public:
         }
         catch (std::ifstream::failure& e)
         {
-            std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+            std::throw_with_nested("ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ");
         }
+
         const char* vShaderCode = vertexCode.c_str();
         const char * fShaderCode = fragmentCode.c_str();
         // 2. compile shaders
@@ -92,13 +93,15 @@ public:
         // delete the shaders as they're linked into our program now and no longer necessery
         glDeleteShader(vertex);
         glDeleteShader(fragment);
-        if(geometryPath != nullptr)
+        if(geometryPath != nullptr) {
             glDeleteShader(geometry);
+        }
 
+        // Todo: RAII로 glDelete.
     }
     // activate the shader
     // ------------------------------------------------------------------------
-    void use() 
+    void use() const
     { 
         glUseProgram(ID); 
     }

@@ -12,6 +12,11 @@
 
 namespace asd_box {
     class game {
+    private:
+        // Todo: Settings import. setting 클래스 만든 다음 cereal로 불러 오지 뭐.
+        static constexpr auto simple_triangle_vshader_name = "shaders/simple_triangles.vsh";
+        static constexpr auto simple_triangle_fshader_name = "shaders/simple_triangles.fsh";
+
     public:
         game();
 

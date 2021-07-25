@@ -28,17 +28,23 @@ static constexpr unsigned int initial_screen_height = 600;
 asd_box::game* running_game;
 
 int main(int argc, char* argv[]) {
+    // Basic glfw/glad initializations
     init_glfw();
 
     GLFWwindow* window = glfwCreateWindow(initial_screen_width, initial_screen_height, "Hello World!", nullptr,
                                           nullptr);
     glfwMakeContextCurrent(window);
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+        throw std::runtime_error("Failed to initialize GLAD");
+    }
 
-    auto game = asd_box::game{};
-    game.generate_test_entities();
-    running_game = &game;
+
+    // create game object
+    running_game = new asd_box::game{};
+    running_game->generate_test_entities();
     running_game->initialize_screen(initial_screen_width, initial_screen_height);
 
+    // bind callbacks
     glfwSetKeyCallback(window, key_callback);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
