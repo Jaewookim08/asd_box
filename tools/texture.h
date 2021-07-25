@@ -18,6 +18,8 @@ namespace asd_box {
         const int height;
         const int nr_channels;
 
+        [[nodiscard]] unsigned char* get_data();
+
     private:
         struct data_deleter {
             void operator()(void* ptr) {

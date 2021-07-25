@@ -10,6 +10,7 @@
 
 
 namespace asd_box{
+    [[deprecated]]
     class resource_loader {
     public:
         resource_loader() = delete;
