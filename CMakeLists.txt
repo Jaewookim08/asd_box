@@ -5,7 +5,7 @@ project(asd_box VERSION 1.0
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(asd_box main.cpp systems/graphic_system/graphics_system.cpp systems/graphic_system/graphics_system.h game.cpp game.h components/transform.cpp components/transform.h components/triangle_renderer.h tools/resource_manager.cpp tools/resource_manager.h tools/texture.cpp tools/texture.h tools/stb_image.cpp)
+add_executable(asd_box main.cpp systems/graphic_system/graphics_system.cpp systems/graphic_system/graphics_system.h game.cpp game.h components/transform.cpp components/transform.h components/triangle_renderer.h tools/resource_manager.cpp tools/resource_manager.h tools/texture.cpp tools/texture.h tools/stb_image.cpp tools/resource_loader.cpp tools/resource_loader.h)
 
 find_package(OpenGL REQUIRED)
 

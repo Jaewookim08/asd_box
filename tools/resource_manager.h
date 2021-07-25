@@ -7,6 +7,8 @@
 
 #include <unordered_map>
 #include <memory>
+#include "texture.h"
+#include "resource_loader.h"
 
 namespace asd_box {
     template<class T> using resource_ptr = std::shared_ptr<T>;
@@ -29,7 +31,6 @@ namespace asd_box {
         template<class T>
         resource_ptr<T> get(const std::string& path);
     private:
-//        load_texture()
     };
 
     template<class T>
@@ -41,7 +42,7 @@ namespace asd_box {
             return std::move(resource);
         }
         else {
-
+            return loaded = std::make_shared(resource_loader::load<T>(path));
         }
     }
 }
