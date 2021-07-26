@@ -50,22 +50,28 @@ void asd_box::game::render() {
 void asd_box::game::generate_test_entities() {
     using namespace asd_box;
 
-    for (int i = 0; i < 2; i++){
+     for (int i = 0; i < 2; i++) {
         auto entity1 = m_registry.create();
-        m_registry.emplace<transform>(entity1, transform{.translation = {0, 0, 0}});
+        m_registry.emplace<transform>(entity1,
+                                      transform{
+                                              .translation = {0.3f, 0.2f, 0.f},
+                                              .rotation = {glm::vec3{0, 0, glm::pi<float>()}},
+                                              .scale = {1.0, 1.0, 1.0}});
         m_registry.emplace<triangle_renderer>(entity1, triangle_renderer{.triangle={glm::vec<3, float>{1.f, 0.f, 0.f},
                                                                                     {0.f, 1.f, 0.f},
                                                                                     {0.f, 0.f, 0.f}}, .color={1.f, 0.f,
                                                                                                               0.f}});
 
         m_registry.emplace<sprite_renderer>(entity1,
-                                            sprite_renderer{"assets/awesomeface.png", glm::vec<4, float>{0.f, 1.f, 0.f, 0.2f}});
+                                            sprite_renderer{"assets/awesomeface.png",
+                                                            glm::vec<4, float>{0.f, 1.f, 0.f, 0.2f}});
     }
 }
 
 asd_box::game::game()
         : m_registry{},
-          m_graphics_system{m_registry, Shader{simple_triangle_vshader_name, simple_triangle_fshader_name}, Shader{texture_vshader_name, texture_fshader_name}} {
+          m_graphics_system{m_registry, Shader{simple_triangle_vshader_name, simple_triangle_fshader_name},
+                            Shader{texture_vshader_name, texture_fshader_name}} {
 }
 
 

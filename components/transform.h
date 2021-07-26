@@ -11,8 +11,11 @@
 namespace asd_box {
     class transform {
     public:
-        glm::vec<3, float> translation;
+        glm::vec3 translation{};
         glm::quat rotation;
+        glm::vec3 scale = {1.f, 1.f, 1.f};
+
+        glm::mat4 model_matrix();
     };
 }
 

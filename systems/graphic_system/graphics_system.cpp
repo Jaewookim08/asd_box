@@ -124,7 +124,7 @@ void asd_box::graphics_system::render() {
 
     {
         // draw sprites
-        for (auto&&[entity, sprite_renderer]: m_registry.view<asd_box::sprite_renderer>().each()) {
+        for (auto&&[entity, transform, sprite_renderer]: m_registry.view<asd_box::transform, asd_box::sprite_renderer>().each()) {
             // load texture
             const auto& filepath = sprite_renderer.texture_filepath;
             auto& texture_handle = sprite_renderer.texture_handle;
@@ -141,7 +141,11 @@ void asd_box::graphics_system::render() {
             glBindTexture(GL_TEXTURE_2D, texture_handle->texture_id);
 
             m_texture_shader.use();
-            m_texture_shader.setVec4("color", sprite_renderer.color);
+//            m_texture_shader.setVec4("color", sprite_renderer.color);
+            m_texture_shader.setVec4("color", glm::vec4{1, 1, 1, 1});
+//            m_texture_shader.setMat4("uModelViewMatrix", transform.model_matrix());
+
+            m_texture_shader.setMat4("uModelViewMatrix", transform.model_matrix());
             glBindVertexArray(m_draw_texture_vao);
 
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -149,7 +153,14 @@ void asd_box::graphics_system::render() {
     }
 }
 
-void asd_box::graphics_system::update(float dt) {
+#include "components/transform.h"
+#include <glm/ext.hpp>
 
+void asd_box::graphics_system::update(float dt) {
+    // Temp
+    for (auto&& [entity, transform]: m_registry.view<asd_box::transform>().each()){
+//        auto euler_rot = glm::eulerAngles(transform.rotation);
+        transform.rotation = glm::rotate(transform.rotation, 20.f*dt, glm::vec3{1, 0, 0});
+    }
 }
 
