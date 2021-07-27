@@ -4,6 +4,7 @@
 
 #include "graphics_system.h"
 
+#include <iostream>
 #include <stdexcept>
 #include <components/sprite_renderer.h>
 #include "components/transform.h"
@@ -12,10 +13,17 @@
 
 using asd_box::graphics_system;
 
-static unsigned int gl_generate_vertex_arrays() {
-    unsigned int vao;
-    glGenVertexArrays(1, &vao);
-    return vao;
+namespace {
+    unsigned int gl_generate_vertex_arrays() {
+        unsigned int vao;
+        glGenVertexArrays(1, &vao);
+        return vao;
+    }
+
+    std::ostream& operator<<(std::ostream& stream, const glm::vec4& vec) {
+        stream << vec.x << " " << vec.y << " " << vec.z << " " << vec.w;
+    }
+
 }
 
 asd_box::graphics_system::graphics_system(entt::registry& registry, Shader texture_shader) :
@@ -79,7 +87,8 @@ void asd_box::graphics_system::framebuffer_size_event(int width,
 
 
 static void draw_sprites(entt::registry& registry, asd_box::gl_texture_cache& texture_cache, const Shader& shader,
-                         unsigned int vao, const glm::mat4 view_matrix) {
+                         unsigned int vao, const glm::mat4& view_matrix, const glm::mat4& projection_matrix) {
+
     for (auto&&[entity, transform, sprite_renderer]: registry.view<asd_box::transform, asd_box::sprite_renderer>().each()) {
         // load texture
         const auto& filepath = sprite_renderer.texture_filepath;
@@ -100,7 +109,15 @@ static void draw_sprites(entt::registry& registry, asd_box::gl_texture_cache& te
         shader.use();
         shader.setVec4("color", sprite_renderer.color);
 
+        auto a = view_matrix * transform.get_world_transform_matrix();
+        auto b = projection_matrix * a;
+
+        auto aa = a * glm::vec4{0, 0, 0, 1};
+        auto bb = b * glm::vec4{0, 0, 0, 1};
+
+//        std::cout << bb << '\n';
         shader.setMat4("uModelViewMatrix", view_matrix * transform.get_world_transform_matrix());
+        shader.setMat4("uProjectionMatrix", projection_matrix);
         glBindVertexArray(vao);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -112,8 +129,11 @@ void asd_box::graphics_system::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for (auto&&[camera_entity, camera_transform, camera]: m_registry.view<asd_box::transform, asd_box::camera>().each()) {
+        auto a = camera_transform.get_world_transform_matrix();
         auto view_matrix = glm::inverse(camera_transform.get_world_transform_matrix());
-        draw_sprites(m_registry, m_texture_cache, m_texture_shader, m_draw_texture_vao, view_matrix);
+        auto projection_matrix = glm::perspective(glm::radians(80.f), 800.0f / 600.0f, 0.1f, 100.0f);
+
+        draw_sprites(m_registry, m_texture_cache, m_texture_shader, m_draw_texture_vao, view_matrix, projection_matrix);
     }
 }
 
@@ -121,8 +141,8 @@ void asd_box::graphics_system::update(float dt) {
     // Temp
     for (auto&&[entity, transform, cam]: m_registry.view<asd_box::transform, asd_box::camera>().each()) {
         auto euler_rot = glm::eulerAngles(transform.rotation);
-        transform.translation -= glm::vec3{0.1f, 0, 0} * dt;
-        transform.rotation = glm::rotate(transform.rotation, 20.f * dt, glm::vec3{1, 0, 0});
+//        transform.translation -= glm::vec3{0.1f, 0, 0} * dt;
+        transform.rotation = glm::rotate(transform.rotation, 3f * dt, glm::vec3{1, 0, 0});
     }
 }
 

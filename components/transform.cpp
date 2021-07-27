@@ -8,7 +8,10 @@
 
 glm::mat4 asd_box::transform::get_transform_matrix() {
     constexpr auto identity = glm::mat4{1.f};
-    return glm::translate(identity, translation) * glm::mat4x4{rotation} * glm::scale(identity, scale);
+    auto a = glm::translate(identity, translation);
+    auto b = glm::mat4{rotation};
+    auto c = glm::scale(identity, scale);
+    return glm::translate(identity, translation) * glm::mat4{rotation} * glm::scale(identity, scale);
 }
 
 glm::mat4 asd_box::transform::get_world_transform_matrix() {

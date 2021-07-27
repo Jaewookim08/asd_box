@@ -53,7 +53,7 @@ void asd_box::game::generate_test_entities() {
     for (int i = 0; i < 2; i++) {
         auto entity1 = m_registry.create();
         m_registry.emplace<transform>(entity1,
-                                      transform{glm::vec3{0.1f, 0.f, 0.f},
+                                      transform{glm::vec3{0.2f, 0.f, 0.f},
                                                 glm::quat{glm::vec3{0, 0, glm::pi<float>()}},
                                                 glm::vec3{1.0,  1.0,  1.0}});
 
@@ -63,8 +63,8 @@ void asd_box::game::generate_test_entities() {
 
         auto cam = m_registry.create();
         m_registry.emplace<transform>(cam,
-                                      transform{glm::vec3{-0.5f, 0.f, 0.5f},
-                                                glm::quat{},
+                                      transform{glm::vec3{0.f, 0.f, 3.0f},
+                                                glm::identity<glm::quat>(),
                                                 glm::vec3{1.0,  1.0,  1.0}});
 
         m_registry.emplace<camera>(cam, camera{});
