@@ -4,8 +4,8 @@
 
 #include "game.h"
 #include "components/transform.h"
-#include "components/triangle_renderer.h"
 #include "components/sprite_renderer.h"
+#include "components/camera.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -50,28 +50,30 @@ void asd_box::game::render() {
 void asd_box::game::generate_test_entities() {
     using namespace asd_box;
 
-     for (int i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++) {
         auto entity1 = m_registry.create();
         m_registry.emplace<transform>(entity1,
-                                      transform{
-                                              .translation = {0.3f, 0.2f, 0.f},
-                                              .rotation = {glm::vec3{0, 0, glm::pi<float>()}},
-                                              .scale = {1.0, 1.0, 1.0}});
-        m_registry.emplace<triangle_renderer>(entity1, triangle_renderer{.triangle={glm::vec<3, float>{1.f, 0.f, 0.f},
-                                                                                    {0.f, 1.f, 0.f},
-                                                                                    {0.f, 0.f, 0.f}}, .color={1.f, 0.f,
-                                                                                                              0.f}});
+                                      transform{glm::vec3{0.1f, 0.f, 0.f},
+                                                glm::quat{glm::vec3{0, 0, glm::pi<float>()}},
+                                                glm::vec3{1.0,  1.0,  1.0}});
 
         m_registry.emplace<sprite_renderer>(entity1,
                                             sprite_renderer{"assets/awesomeface.png",
                                                             glm::vec<4, float>{0.f, 1.f, 0.f, 0.2f}});
+
+        auto cam = m_registry.create();
+        m_registry.emplace<transform>(cam,
+                                      transform{glm::vec3{-0.5f, 0.f, 0.5f},
+                                                glm::quat{},
+                                                glm::vec3{1.0,  1.0,  1.0}});
+
+        m_registry.emplace<camera>(cam, camera{});
     }
 }
 
 asd_box::game::game()
         : m_registry{},
-          m_graphics_system{m_registry, Shader{simple_triangle_vshader_name, simple_triangle_fshader_name},
-                            Shader{texture_vshader_name, texture_fshader_name}} {
+          m_graphics_system{m_registry, Shader{texture_vshader_name, texture_fshader_name}} {
 }
 
 
