@@ -16,5 +16,5 @@ add_subdirectory(submodules/glad)
 add_subdirectory(submodules/glm)
 add_subdirectory(submodules/entt)
 
-target_include_directories(asd_box PRIVATE ./ tools ${OPENGL_INCLUDE_DIRS})
+target_include_directories(asd_box PRIVATE ./ ./tools ${OPENGL_INCLUDE_DIRS} ./external)
 target_link_libraries(asd_box PRIVATE glfw glad glm EnTT::EnTT)
