@@ -55,7 +55,7 @@ void asd_box::game::generate_test_entities() {
         m_registry.emplace<transform>(entity1,
                                       transform{glm::vec3{0.2f, 0.f, 0.f},
                                                 glm::quat{glm::vec3{0, 0, glm::pi<float>()}},
-                                                glm::vec3{1.0,  1.0,  1.0}});
+                                                glm::vec3{1.0, 1.0, 1.0}});
 
         m_registry.emplace<sprite_renderer>(entity1,
                                             sprite_renderer{"assets/awesomeface.png",
@@ -65,9 +65,11 @@ void asd_box::game::generate_test_entities() {
         m_registry.emplace<transform>(cam,
                                       transform{glm::vec3{0.f, 0.f, 3.0f},
                                                 glm::identity<glm::quat>(),
-                                                glm::vec3{1.0,  1.0,  1.0}});
+                                                glm::vec3{1.0, 1.0, 1.0}});
 
-        m_registry.emplace<camera>(cam, camera{});
+//        m_registry.emplace<camera>(cam, camera{perspective_camera{glm::radians(60.f), 800.f / 600.f, 0.1f, 100.f}});
+        m_registry.emplace<camera>(cam, camera{orthographic_camera{-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.f}});
+
     }
 }
 

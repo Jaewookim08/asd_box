@@ -86,6 +86,8 @@ void init_glfw() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
     glfwWindowHint(GLFW_RESIZABLE, false);
+
+    glfwWindowHint(GLFW_SAMPLES, 4);
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {

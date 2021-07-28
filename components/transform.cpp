@@ -22,3 +22,4 @@ asd_box::transform::transform(glm::vec3 translation, glm::quat rotation, glm::ve
         translation{translation}, rotation{rotation}, scale{scale} {
 
 }
+
