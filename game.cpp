@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include <systems/save_manager.h>
 
 using asd_box::game;
 
@@ -70,6 +71,12 @@ void asd_box::game::generate_test_entities() {
 //        m_registry.emplace<camera>(cam, camera{perspective_camera{glm::radians(60.f), 800.f / 600.f, 0.1f, 100.f}});
         m_registry.emplace<camera>(cam, camera{orthographic_camera{-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.f}});
 
+
+        {
+            auto sm = asd_box::save_manager{};
+            auto output = std::ofstream{"test.json"};
+            sm.save(m_registry, output);
+        }
     }
 }
 
