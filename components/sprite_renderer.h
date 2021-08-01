@@ -19,7 +19,16 @@ namespace asd_box {
         glm::vec<4, float> color;
 
         entt::resource_handle<gl_texture> texture_handle; // texture handle cache
+
+        template<class Archive>
+        void serialize(Archive & ar);
     };
+    template<class Archive>
+    void sprite_renderer::serialize(Archive& ar) {
+        using namespace std::string_literals;
+        ar("sprite_renderer_data_placeholder"s);
+    }
+
 }
 
 

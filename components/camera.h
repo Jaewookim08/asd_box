@@ -7,6 +7,7 @@
 
 #include <glm/glm.hpp>
 #include <variant>
+#include <cereal/cereal.hpp>
 
 namespace asd_box {
     struct perspective_camera {
@@ -18,6 +19,14 @@ namespace asd_box {
         float z_far;
 
         [[nodiscard]] glm::mat4 get_projection_matrix() const;
+
+        template<class Archive>
+        void serialize(Archive & ar){
+            ar(CEREAL_NVP(fovy));
+            ar(CEREAL_NVP(aspect));
+            ar(CEREAL_NVP(z_near));
+            ar(CEREAL_NVP(z_far));
+        }
     };
 
     struct orthographic_camera{
@@ -31,6 +40,16 @@ namespace asd_box {
         float z_far;
 
         [[nodiscard]] glm::mat4 get_projection_matrix() const;
+
+        template<class Archive>
+        void serialize(Archive & ar){
+            ar(CEREAL_NVP(left));
+            ar(CEREAL_NVP(right));
+            ar(CEREAL_NVP(bottom));
+            ar(CEREAL_NVP(top));
+            ar(CEREAL_NVP(z_near));
+            ar(CEREAL_NVP(z_far));
+        }
     };
 
     struct camera {
@@ -39,6 +58,11 @@ namespace asd_box {
 
         variant_camera_t inner_camera;
         [[nodiscard]] glm::mat4 get_projection_matrix() const;
+
+        template<class Archive>
+        void serialize(Archive & ar){
+            ar(CEREAL_NVP(inner_camera));
+        }
     };
 }
 
