@@ -3,7 +3,7 @@
 //
 
 #include "game.h"
-#include "components/transform.h"
+#include "components/transform/transform.h"
 #include "components/sprite_renderer.h"
 #include "components/camera.h"
 
@@ -13,6 +13,7 @@
 #include <vector>
 #include <stdexcept>
 #include <systems/save_manager.h>
+#include <components/transform/transform_handler.h>
 
 using asd_box::game;
 
@@ -51,32 +52,34 @@ void asd_box::game::render() {
 void asd_box::game::generate_test_entities() {
     using namespace asd_box;
 
+    auto objects = std::array<entt::entity, 3>{};
+    m_registry.create(objects.begin(), objects.end());
+
     for (int i = 0; i < 2; i++) {
-        auto entity1 = m_registry.create();
-        m_registry.emplace<transform>(entity1,
+        m_registry.emplace<transform>(objects[i],
                                       transform{glm::vec3{0.2f, 0.f, 0.f},
                                                 glm::quat{glm::vec3{0, 0, glm::pi<float>()}},
                                                 glm::vec3{1.0, 1.0, 1.0}});
 
-        m_registry.emplace<sprite_renderer>(entity1,
+        m_registry.emplace<sprite_renderer>(objects[i],
                                             sprite_renderer{"assets/awesomeface.png",
-                                                            glm::vec<4, float>{0.f, 1.f, 0.f, 0.2f}});
+                                                            glm::vec<4, float>{1.0f * i, 1.f, 0.f, 0.2f}});
+    }
+    transform_handler{m_registry, objects[0]}.set_parent(objects[1]);
 
-        auto cam = m_registry.create();
-        m_registry.emplace<transform>(cam,
-                                      transform{glm::vec3{0.f, 0.f, 3.0f},
-                                                glm::identity<glm::quat>(),
-                                                glm::vec3{1.0, 1.0, 1.0}});
+    auto cam = m_registry.create();
+    m_registry.emplace<transform>(cam,
+                                  transform{glm::vec3{0.f, 0.f, 3.0f},
+                                            glm::identity<glm::quat>(),
+                                            glm::vec3{1.0, 1.0, 1.0}});
 
 //        m_registry.emplace<camera>(cam, camera{perspective_camera{glm::radians(60.f), 800.f / 600.f, 0.1f, 100.f}});
-        m_registry.emplace<camera>(cam, camera{orthographic_camera{-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.f}});
+    m_registry.emplace<camera>(cam, camera{orthographic_camera{-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.f}});
 
-
-        {
-            auto sm = asd_box::save_manager{};
-            auto output = std::ofstream{"test.json"};
-            sm.save(m_registry, output);
-        }
+    {
+        auto sm = asd_box::save_manager{};
+        auto output = std::ofstream{"test.json"};
+        sm.save(m_registry, output);
     }
 }
 

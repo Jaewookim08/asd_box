@@ -7,9 +7,10 @@
 #include <iostream>
 #include <stdexcept>
 #include <components/sprite_renderer.h>
-#include "components/transform.h"
+#include "components/transform/transform.h"
 #include "components/camera.h"
 #include <glm/ext.hpp>
+#include <components/transform/transform_handler.h>
 
 using asd_box::graphics_system;
 
@@ -33,6 +34,7 @@ asd_box::graphics_system::graphics_system(entt::registry& registry, Shader textu
 
 
     stbi_set_flip_vertically_on_load(true);
+
     {
         // make texture draw vbo
         float vertices[] = {
@@ -110,14 +112,17 @@ static void draw_sprites(entt::registry& registry, asd_box::gl_texture_cache& te
         shader.use();
         shader.setVec4("color", sprite_renderer.color);
 
-        auto a = view_matrix * transform.get_world_transform_matrix();
-        auto b = projection_matrix * a;
+//        test
+//        auto a = view_matrix * transform.get_world_transform_matrix(registry);
+//        auto b = projection_matrix * a;
+//
+//        auto aa = a * glm::vec4{0, 0, 0, 1};
+//        auto bb = b * glm::vec4{-1.f, 0, 0, 1};
+//
+//        std::cout << bb << '\n';
 
-        auto aa = a * glm::vec4{0, 0, 0, 1};
-        auto bb = b * glm::vec4{-1.f, 0, 0, 1};
-
-        std::cout << bb << '\n';
-        shader.setMat4("uModelViewMatrix", view_matrix * transform.get_world_transform_matrix());
+        auto transform_handler = asd_box::transform_handler{registry, entity, transform};
+        shader.setMat4("uModelViewMatrix", view_matrix * transform_handler.get_world_transform_matrix());
         shader.setMat4("uProjectionMatrix", projection_matrix);
         glBindVertexArray(vao);
 
@@ -130,7 +135,8 @@ void asd_box::graphics_system::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for (auto&&[camera_entity, camera_transform, camera]: m_registry.view<asd_box::transform, asd_box::camera>().each()) {
-        auto view_matrix = glm::inverse(camera_transform.get_world_transform_matrix());
+        auto transform_handler = asd_box::transform_handler{m_registry, camera_entity, camera_transform};
+        auto view_matrix = glm::inverse(transform_handler.get_world_transform_matrix());
         auto projection_matrix = camera.get_projection_matrix();
 
         draw_sprites(m_registry, m_texture_cache, m_texture_shader, m_draw_texture_vao, view_matrix, projection_matrix);
@@ -139,10 +145,12 @@ void asd_box::graphics_system::render() {
 
 void asd_box::graphics_system::update(float dt) {
     // Temp
-    for (auto&&[entity, transform, cam]: m_registry.view<asd_box::transform, asd_box::camera>().each()) {
+    for (auto&&[entity, transform, sprite]: m_registry.view<asd_box::transform, asd_box::sprite_renderer>().each()) {
 //        auto euler_rot = glm::eulerAngles(transform.rotation);
-//        transform.translation -= glm::vec3{0.1f, 0, 0} * dt;
-        transform.rotation = glm::rotate(transform.rotation, 3.f * dt, glm::vec3{1, 0, 0});
+        auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};
+
+        transform_handler.set_translation(transform_handler.get_translation() - glm::vec3{0.1f, 0, 0} * dt);
+        transform_handler.set_rotation(glm::rotate(transform_handler.get_rotation(), 3.f * dt, glm::vec3{0, 0, 1}));
     }
 }
 
