@@ -20,22 +20,34 @@ void asd_box::input_manager::next_frame() {
     current_key_state() = prev_key_state();
 }
 
-bool asd_box::input_manager::check_key(int key) {
+bool asd_box::input_manager::check_key(int key) const {
     return current_key_state()[key];
 }
 
-bool asd_box::input_manager::check_key_pressed(int key) {
+bool asd_box::input_manager::check_key_pressed(int key) const {
     return !current_key_state()[key] && prev_key_state()[key];
 }
 
-bool asd_box::input_manager::check_key_released(int key) {
+bool asd_box::input_manager::check_key_released(int key) const{
     return !current_key_state()[key] && prev_key_state()[key];
 }
+
 
 asd_box::input_manager::key_state& asd_box::input_manager::current_key_state() {
     return m_buffers[m_current_buffer_index];
 }
 
+const asd_box::input_manager::key_state& asd_box::input_manager::current_key_state() const {
+    return m_buffers[m_current_buffer_index];;
+}
+
+
 asd_box::input_manager::key_state& asd_box::input_manager::prev_key_state() {
     return m_buffers[1 - m_current_buffer_index];
 }
+
+const asd_box::input_manager::key_state& asd_box::input_manager::prev_key_state() const {
+    return m_buffers[1 - m_current_buffer_index];
+}
+
+

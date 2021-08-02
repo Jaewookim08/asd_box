@@ -17,18 +17,20 @@ namespace asd_box {
 
         void next_frame();
 
-        bool check_key(int key);
+        bool check_key(int key) const;
 
-        bool check_key_pressed(int key);
+        bool check_key_pressed(int key) const;
 
-        bool check_key_released(int key);
+        bool check_key_released(int key) const;
 
     private:
         using key_state = std::array<bool, GLFW_KEY_LAST>;
 
-        key_state& current_key_state();
+        [[nodiscard]] key_state& current_key_state();
+        [[nodiscard]] const key_state& current_key_state() const;
 
-        key_state& prev_key_state();
+        [[nodiscard]] key_state& prev_key_state();
+        [[nodiscard]] const key_state& prev_key_state() const;
 
         std::array<key_state, 2> m_buffers{};
         int m_current_buffer_index = 0;
