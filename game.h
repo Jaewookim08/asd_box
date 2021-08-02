@@ -9,6 +9,7 @@
 #include <string>
 #include "systems/graphic_system/graphics_system.h"
 #include <entt/entt.hpp>
+#include <systems/input_manager.h>
 
 namespace asd_box {
     class game {
@@ -42,8 +43,9 @@ namespace asd_box {
 
     private:
 
+        input_manager m_input_manager{};
         graphics_system m_graphics_system;
-        entt::registry m_registry;
+        entt::registry m_registry{};
     };
 }
 

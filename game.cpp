@@ -19,19 +19,9 @@ using asd_box::game;
 
 
 void asd_box::game::key_event(int key, int scancode, int action, int mode) {
-    // when a user presses the escape key, we set the WindowShouldClose property to true, closing the application
-
-//    if (key >= 0 && key < 1024)
-//    {
-//        if (action == GLFW_PRESS)
-//            Breakout.Keys[key] = true;
-//        else if (action == GLFW_RELEASE)
-//        {
-//            Breakout.Keys[key] = false;
-//            Breakout.KeysProcessed[key] = false;
-//        }
-//    }
+    m_input_manager.key_event(key, action, mode);
 }
+
 
 void asd_box::game::framebuffer_size_event(int width, int height) {
 
