@@ -149,7 +149,6 @@ void asd_box::graphics_system::update(float dt) {
 //        auto euler_rot = glm::eulerAngles(transform.rotation);
         auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};
 
-        transform_handler.translation_property -= glm::vec3{0.1f, 0, 0} * dt;
         transform_handler.rotation_property = (glm::rotate(transform_handler.rotation_property.get(), 3.f * dt, glm::vec3{0, 0, 1}));
     }
 }

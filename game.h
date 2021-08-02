@@ -10,8 +10,9 @@
 #include "systems/graphic_system/graphics_system.h"
 #include <entt/entt.hpp>
 #include <systems/input_manager.h>
+#include <systems/player_actions_system.h>
 
-namespace asd_box {
+namespace dhoot {
     class game {
     private:
         // Todo: Settings import. setting 클래스 만든 다음 cereal로 불러 오지 뭐.
@@ -37,14 +38,15 @@ namespace asd_box {
 
         void framebuffer_size_event(int width, int height);
 
-        void update(float delta_time);
+        void update(float dt);
 
         void render();
 
     private:
 
-        input_manager m_input_manager{};
-        graphics_system m_graphics_system;
+        asd_box::input_manager m_input_manager{};
+        asd_box::graphics_system m_graphics_system;
+        dhoot::player_actions_system m_player_actions_system{m_registry, m_input_manager};
         entt::registry m_registry{};
     };
 }

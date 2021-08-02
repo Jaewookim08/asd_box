@@ -25,7 +25,7 @@ void init_glfw();
 static constexpr unsigned int initial_screen_width = 800;
 static constexpr unsigned int initial_screen_height = 600;
 
-asd_box::game* running_game;
+dhoot::game* running_game;
 
 int main(int argc, char* argv[]) {
     // Basic glfw/glad initializations
@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
 
 
     // create game object
-    running_game = new asd_box::game{};
+    running_game = new dhoot::game{};
     running_game->generate_test_entities();
     running_game->initialize_screen(initial_screen_width, initial_screen_height);
 

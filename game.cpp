@@ -7,39 +7,36 @@
 #include "components/sprite_renderer.h"
 #include "components/camera.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <string>
-#include <vector>
-#include <stdexcept>
 #include <systems/save_manager.h>
 #include <components/transform/transform_handler.h>
+#include <components/main_character.h>
 
-using asd_box::game;
-
-
-void asd_box::game::key_event(int key, int scancode, int action, int mode) {
+void dhoot::game::key_event(int key, int scancode, int action, int mode) {
     m_input_manager.key_event(key, action, mode);
 }
 
 
-void asd_box::game::framebuffer_size_event(int width, int height) {
+void dhoot::game::framebuffer_size_event(int width, int height) {
 
 }
 
-void asd_box::game::update(float delta_time) {
-    m_graphics_system.update(delta_time);
+void dhoot::game::update(float dt) {
+    m_graphics_system.update(dt);
+    m_player_actions_system.update(dt);
+
+    m_input_manager.next_frame();
 }
 
-void asd_box::game::initialize_screen(int initial_screen_width, int initial_screen_height) {
+void dhoot::game::initialize_screen(int initial_screen_width, int initial_screen_height) {
     m_graphics_system.initialize_gl_settings(initial_screen_width, initial_screen_height);
 }
 
-void asd_box::game::render() {
+void dhoot::game::render() {
     m_graphics_system.render();
 }
 
-void asd_box::game::generate_test_entities() {
+void dhoot::game::generate_test_entities() {
     using namespace asd_box;
 
     auto objects = std::array<entt::entity, 3>{};
@@ -47,7 +44,7 @@ void asd_box::game::generate_test_entities() {
 
     for (int i = 0; i < 2; i++) {
         m_registry.emplace<transform>(objects[i],
-                                      transform{glm::vec3{-0.2f, 0.f, 0.f},
+                                      transform{glm::vec3{-2.f, 0.f, 0.f},
                                                 glm::identity<glm::quat>(),
                                                 glm::vec3{1.0, 1.0, 1.0}});
 
@@ -56,6 +53,7 @@ void asd_box::game::generate_test_entities() {
                                                             glm::vec<4, float>{1.0f * i, 1.f, 0.f, 0.2f}});
     }
     transform_handler{m_registry, objects[0]}.set_parent(objects[1]);
+    m_registry.emplace<dhoot::main_character>(objects[1], dhoot::main_character{.speed = 4.f});
 
     auto cam = m_registry.create();
     m_registry.emplace<transform>(cam,
@@ -73,7 +71,7 @@ void asd_box::game::generate_test_entities() {
     }
 }
 
-asd_box::game::game()
+dhoot::game::game()
         : m_registry{},
           m_graphics_system{m_registry, Shader{texture_vshader_name, texture_fshader_name}} {
 }
