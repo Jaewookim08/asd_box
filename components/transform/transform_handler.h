@@ -7,11 +7,13 @@
 
 #include <entt/entt.hpp>
 #include "transform.h"
+#include "tools/property.h"
 
 namespace asd_box {
     class transform_handler {
     public:
         transform_handler(entt::registry& registry, entt::entity entity, transform& transform);
+
         transform_handler(entt::registry& registry, entt::entity entity);
 
         [[nodiscard]]glm::vec3 get_translation() const;
@@ -30,6 +32,17 @@ namespace asd_box {
         [[nodiscard]] glm::mat4 get_transform_matrix();
 
         [[nodiscard]] glm::mat4 get_world_transform_matrix();
+
+        asd_box::tools::member_property<transform_handler,
+                &transform_handler::get_translation, &transform_handler::set_translation>
+                translation_property{this};
+
+        asd_box::tools::member_property<transform_handler,
+                &transform_handler::get_rotation, &transform_handler::set_rotation>
+                rotation_property{this};
+        asd_box::tools::member_property<transform_handler,
+                &transform_handler::get_scale, &transform_handler::set_scale>
+                scale_property{this};
 
         void set_parent(entt::entity new_parent);
 

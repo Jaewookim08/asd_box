@@ -13,6 +13,7 @@
 namespace asd_box {
     template<class T> using resource_ptr = std::shared_ptr<T>;
 
+    [[deprecated]]
     class resource_manager {
     public:
         static resource_manager& ins();

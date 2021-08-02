@@ -57,8 +57,8 @@ void asd_box::game::generate_test_entities() {
 
     for (int i = 0; i < 2; i++) {
         m_registry.emplace<transform>(objects[i],
-                                      transform{glm::vec3{0.2f, 0.f, 0.f},
-                                                glm::quat{glm::vec3{0, 0, glm::pi<float>()}},
+                                      transform{glm::vec3{-0.2f, 0.f, 0.f},
+                                                glm::identity<glm::quat>(),
                                                 glm::vec3{1.0, 1.0, 1.0}});
 
         m_registry.emplace<sprite_renderer>(objects[i],
