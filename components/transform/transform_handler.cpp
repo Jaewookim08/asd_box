@@ -29,7 +29,7 @@ glm::mat4 asd_box::transform_handler::get_world_transform_matrix() {
                                        transform_handler{m_registry, parent}.get_world_transform_matrix() :
                                        glm::identity<glm::mat4>();
 
-        m_transform.m_world_transform_matrix_cache = get_transform_matrix() * parent_transform_matrix;
+        m_transform.m_world_transform_matrix_cache = parent_transform_matrix * get_transform_matrix();
         m_transform.m_dirty_flag = false;
     }
 
