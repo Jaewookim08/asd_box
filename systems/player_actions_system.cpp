@@ -10,6 +10,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/epsilon.hpp>
 #include <glm/gtx/norm.hpp>
+#include <iostream>
+
 
 dhoot::player_actions_system::player_actions_system(entt::registry& registry,
                                                     const asd_box::input_manager& input_manager) :
@@ -17,6 +19,7 @@ dhoot::player_actions_system::player_actions_system(entt::registry& registry,
 }
 
 void dhoot::player_actions_system::update(float dt) {
+    std::cout << dt << '\n';
     auto move_vec = glm::vec2{0.f};
     auto key = [this](int key) {
         return m_input_manager.check_key(key);

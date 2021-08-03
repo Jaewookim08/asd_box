@@ -124,6 +124,7 @@ static void draw_sprites(entt::registry& registry, asd_box::gl_texture_cache& te
         auto transform_handler = asd_box::transform_handler{registry, entity, transform};
         shader.setMat4("uModelViewMatrix", view_matrix * transform_handler.get_world_transform_matrix());
         shader.setMat4("uProjectionMatrix", projection_matrix);
+        shader.setVec2("uSpriteSize", sprite_renderer.size);
         glBindVertexArray(vao);
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

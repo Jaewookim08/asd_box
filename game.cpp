@@ -44,25 +44,25 @@ void dhoot::game::generate_test_entities() {
 
     for (int i = 0; i < 2; i++) {
         m_registry.emplace<transform>(objects[i],
-                                      transform{glm::vec3{-2.f, 0.f, 0.f},
+                                      transform{glm::vec3{-100.f, 0.f, 0.f},
                                                 glm::identity<glm::quat>(),
                                                 glm::vec3{1.0, 1.0, 1.0}});
 
         m_registry.emplace<sprite_renderer>(objects[i],
                                             sprite_renderer{"assets/awesomeface.png",
-                                                            glm::vec<4, float>{1.0f * i, 1.f, 0.f, 0.2f}});
+                                                            glm::vec<4, float>{1.0f * i, 1.f, 0.f, 0.2f}, glm::vec2{50.f, 50.f}});
     }
     transform_handler{m_registry, objects[0]}.set_parent(objects[1]);
-    m_registry.emplace<dhoot::main_character>(objects[1], dhoot::main_character{.speed = 4.f});
+    m_registry.emplace<dhoot::main_character>(objects[1], dhoot::main_character{.speed = 500.f});
 
     auto cam = m_registry.create();
     m_registry.emplace<transform>(cam,
-                                  transform{glm::vec3{0.f, 0.f, 3.0f},
+                                  transform{glm::vec3{0.f, 0.f, 10.0f},
                                             glm::identity<glm::quat>(),
                                             glm::vec3{1.0, 1.0, 1.0}});
 
 //        m_registry.emplace<camera>(cam, camera{perspective_camera{glm::radians(60.f), 800.f / 600.f, 0.1f, 100.f}});
-    m_registry.emplace<camera>(cam, camera{orthographic_camera{-4.0f, 4.0f, -3.0f, 3.0f, 0.1f, 100.f}});
+    m_registry.emplace<camera>(cam, camera{orthographic_camera{-400.0f, 400.0f, -300.0f, 300.0f, 1.f, 1000.f}});
 
     {
         auto sm = asd_box::save_manager{};
