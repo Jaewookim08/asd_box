@@ -25,7 +25,7 @@ bool asd_box::input_manager::check_key(int key) const {
 }
 
 bool asd_box::input_manager::check_key_pressed(int key) const {
-    return !current_key_state()[key] && prev_key_state()[key];
+    return current_key_state()[key] && !prev_key_state()[key];
 }
 
 bool asd_box::input_manager::check_key_released(int key) const{
