@@ -53,9 +53,9 @@ void dhoot::game::generate_test_entities() {
 //        });
 
         m_registry.emplace<asd_box::sprite_renderer>(objects[i],
-                                                     asd_box::sprite_renderer{"assets/awesomeface.png",
+                                                     asd_box::sprite_renderer{"awesomeface.png",
                                                                               glm::vec<4, float>{1.0f * i, 1.f, 0.f,
-                                                                                                 0.2f},
+                                                                                                 1.f},
                                                                               glm::vec2{50.f, 50.f}});
     }
     asd_box::transform_handler{m_registry, objects[0]}.set_parent(objects[1]);
@@ -63,7 +63,7 @@ void dhoot::game::generate_test_entities() {
 
     auto cam = m_registry.create();
     m_registry.emplace<asd_box::transform>(cam,
-                                           asd_box::transform{glm::vec3{0.f, 0.f, 10.0f},
+                                           asd_box::transform{glm::vec3{0.f, 0.f, 300.0f},
                                                               glm::identity<glm::quat>(),
                                                               glm::vec3{1.0, 1.0, 1.0}});
 

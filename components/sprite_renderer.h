@@ -12,6 +12,7 @@
 #include <glm/glm.hpp>
 
 namespace asd_box {
+    // Todo: depth 추가.
     struct sprite_renderer {
         sprite_renderer(std::string texture_filepath, glm::vec4 color, glm::vec2 size);
 

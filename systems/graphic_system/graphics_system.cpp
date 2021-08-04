@@ -148,9 +148,9 @@ void asd_box::graphics_system::update(float dt) {
     // Temp
     for (auto&&[entity, transform, sprite]: m_registry.view<asd_box::transform, asd_box::sprite_renderer>().each()) {
 //        auto euler_rot = glm::eulerAngles(transform.rotation);
-        auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};
-
-        transform_handler.rotation_property = (glm::rotate(transform_handler.rotation_property.get(), 3.f * dt, glm::vec3{0, 0, 1}));
+//        auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};
+//
+//        transform_handler.rotation_property = (glm::rotate(transform_handler.rotation_property.get(), 3.f * dt, glm::vec3{0, 0, 1}));
     }
 }
 
