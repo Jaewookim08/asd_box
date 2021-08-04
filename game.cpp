@@ -5,6 +5,7 @@
 #include "game.h"
 #include "components/transform/transform.h"
 #include "components/sprite_renderer.h"
+#include "components/movement.h"
 #include "components/camera.h"
 
 #include <string>
@@ -25,6 +26,8 @@ void dhoot::game::update(float dt) {
     m_graphics_system.update(dt);
     m_player_actions_system.update(dt);
 
+    m_physics_system.update(dt);
+
     m_input_manager.next_frame();
 }
 
@@ -37,32 +40,36 @@ void dhoot::game::render() {
 }
 
 void dhoot::game::generate_test_entities() {
-    using namespace asd_box;
-
-    auto objects = std::array<entt::entity, 3>{};
+    auto objects = std::array<entt::entity, 2>{};
     m_registry.create(objects.begin(), objects.end());
 
     for (int i = 0; i < 2; i++) {
-        m_registry.emplace<transform>(objects[i],
-                                      transform{glm::vec3{-100.f, 0.f, 0.f},
-                                                glm::identity<glm::quat>(),
-                                                glm::vec3{1.0, 1.0, 1.0}});
+        m_registry.emplace<asd_box::transform>(objects[i],
+                                               asd_box::transform{glm::vec3{-100.f, 0.f, 0.f},
+                                                                  glm::identity<glm::quat>(),
+                                                                  glm::vec3{1.0, 1.0, 1.0}});
+//        m_registry.emplace<dhoot::movement>(objects[i], dhoot::movement{
+//            .friction = 5000.f,
+//        });
 
-        m_registry.emplace<sprite_renderer>(objects[i],
-                                            sprite_renderer{"assets/awesomeface.png",
-                                                            glm::vec<4, float>{1.0f * i, 1.f, 0.f, 0.2f}, glm::vec2{50.f, 50.f}});
+        m_registry.emplace<asd_box::sprite_renderer>(objects[i],
+                                                     asd_box::sprite_renderer{"assets/awesomeface.png",
+                                                                              glm::vec<4, float>{1.0f * i, 1.f, 0.f,
+                                                                                                 0.2f},
+                                                                              glm::vec2{50.f, 50.f}});
     }
-    transform_handler{m_registry, objects[0]}.set_parent(objects[1]);
+    asd_box::transform_handler{m_registry, objects[0]}.set_parent(objects[1]);
     m_registry.emplace<dhoot::main_character>(objects[1], dhoot::main_character{.speed = 500.f});
 
     auto cam = m_registry.create();
-    m_registry.emplace<transform>(cam,
-                                  transform{glm::vec3{0.f, 0.f, 10.0f},
-                                            glm::identity<glm::quat>(),
-                                            glm::vec3{1.0, 1.0, 1.0}});
+    m_registry.emplace<asd_box::transform>(cam,
+                                           asd_box::transform{glm::vec3{0.f, 0.f, 10.0f},
+                                                              glm::identity<glm::quat>(),
+                                                              glm::vec3{1.0, 1.0, 1.0}});
 
 //        m_registry.emplace<camera>(cam, camera{perspective_camera{glm::radians(60.f), 800.f / 600.f, 0.1f, 100.f}});
-    m_registry.emplace<camera>(cam, camera{orthographic_camera{-400.0f, 400.0f, -300.0f, 300.0f, 1.f, 1000.f}});
+    m_registry.emplace<asd_box::camera>(cam, asd_box::camera{
+            asd_box::orthographic_camera{-400.0f, 400.0f, -300.0f, 300.0f, 1.f, 1000.f}});
 
     {
         auto sm = asd_box::save_manager{};

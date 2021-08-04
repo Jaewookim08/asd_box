@@ -11,6 +11,7 @@
 #include <entt/entt.hpp>
 #include <systems/input_manager.h>
 #include <systems/player_actions_system.h>
+#include <systems/physics_system.h>
 
 namespace dhoot {
     class game {
@@ -47,6 +48,7 @@ namespace dhoot {
         asd_box::input_manager m_input_manager{};
         asd_box::graphics_system m_graphics_system;
         dhoot::player_actions_system m_player_actions_system{m_registry, m_input_manager};
+        dhoot::physics_system m_physics_system{m_registry};
         entt::registry m_registry{};
     };
 }
