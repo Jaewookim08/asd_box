@@ -13,6 +13,7 @@
 #include <systems/player_actions_system.h>
 #include <systems/physics_system.h>
 #include <systems/time_manager.h>
+#include <systems/log_system.h>
 
 namespace dhoot {
     class game {
@@ -54,6 +55,7 @@ namespace dhoot {
         dhoot::physics_system m_physics_system{m_registry};
         entt::registry m_registry{};
         asd_box::time_manager m_time_manager{};
+        asd_box::log_system m_log_system{m_registry, m_time_manager};
 
         bool m_paused = false;
     };

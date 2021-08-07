@@ -13,17 +13,13 @@ void asd_box::time_manager::update(float dt) {
         m_recent_frames_time_queue.pop();
     }
 
-    if (last_fps_printed_time + fps_print_delay <= m_current_time) {
-        std::cout << "Fps: " << get_fps() << '\n';
-        last_fps_printed_time = m_current_time;
-    }
 }
 
 double asd_box::time_manager::current_time() const {
     return m_current_time;
 }
 
-float asd_box::time_manager::get_fps() {
+float asd_box::time_manager::get_fps() const{
     if (m_recent_frames_time_queue.size() <= 1) {
         return 0.f;
     }

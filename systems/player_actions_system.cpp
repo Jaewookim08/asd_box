@@ -53,7 +53,7 @@ void dhoot::player_actions_system::update(float dt, double current_time) {
         return m_input_manager.check_key(key);
     };
     move_main_update(m_registry, check_key, dt);
-    shoot_update(current_time);
+    shoot_update(dt, current_time);
 }
 
 entt::entity dhoot::player_actions_system::shoot_bullet(glm::vec3 initial_pos) {
@@ -65,10 +65,16 @@ entt::entity dhoot::player_actions_system::shoot_bullet(glm::vec3 initial_pos) {
     return made;
 }
 
-void dhoot::player_actions_system::shoot_update(double current_time) {
-    if (m_input_manager.check_key(GLFW_KEY_X)
-        && m_last_shot_time + shoot_delay <= current_time) {
-        m_last_shot_time = current_time;
+void dhoot::player_actions_system::shoot_update(float dt, double current_time) {
+    if (auto shoot_able_time = m_last_shot_time + shoot_delay;
+            m_input_manager.check_key(GLFW_KEY_X)
+                    && shoot_able_time <= current_time) {
+        m_last_shot_time = [&]() {
+            if (shoot_able_time > current_time - dt) {
+                return shoot_able_time;
+            }
+            return current_time;
+        }();
 
         for (auto&&[entity, main, transform] : m_registry.view<dhoot::main_character, asd_box::transform>().each()) {
             auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};

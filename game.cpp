@@ -32,6 +32,7 @@ void dhoot::game::update(float dt) {
         m_graphics_system.update(dt);
         m_player_actions_system.update(dt, m_time_manager.current_time());
         m_physics_system.update(dt);
+        m_log_system.update();
     }
 
     m_input_manager.next_frame();

@@ -24,7 +24,7 @@ namespace dhoot {
         void update(float dt, double current_time);
 
     private:
-        void shoot_update(double current_time);
+        void shoot_update(float dt, double current_time);
         entt::entity shoot_bullet(glm::vec3 initial_pos);
 
         const asd_box::input_manager& m_input_manager;
