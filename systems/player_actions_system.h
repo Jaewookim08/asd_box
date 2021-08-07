@@ -13,22 +13,24 @@ namespace dhoot {
     class player_actions_system {
         static constexpr auto bullet_velocity = glm::vec3{0.f, 1000.f, 0.f};
         static constexpr auto bullet_texture_path = "white.png";
-        static constexpr auto bullet_color = glm::vec4{0.f, 0.f, 0.f, 1.f};
-        static constexpr auto bullet_size = glm::vec2{8.f, 20.f};
-        static constexpr auto shoot_delay = 0.25f;
+        static constexpr auto bullet_color = glm::vec4{0.f, 0.f, 0.f, 0.8f};
+        static constexpr auto bullet_size = glm::vec2{6.f, 15.f};
+        static constexpr auto shoot_delay = 0.08;
 
     public:
         player_actions_system(entt::registry& registry,
                               const asd_box::input_manager& input_manager);
 
-        void update(float dt);
+        void update(float dt, double current_time);
 
     private:
-        void shoot_update(float dt);
+        void shoot_update(double current_time);
         entt::entity shoot_bullet(glm::vec3 initial_pos);
 
         const asd_box::input_manager& m_input_manager;
         entt::registry & m_registry;
+
+        double m_last_shot_time = 0;
     };
 }
 

@@ -46,14 +46,14 @@ dhoot::player_actions_system::player_actions_system(entt::registry& registry,
         m_registry{registry}, m_input_manager{input_manager} {
 }
 
-void dhoot::player_actions_system::update(float dt) {
+void dhoot::player_actions_system::update(float dt, double current_time) {
 //    std::cout << dt << '\n';
 
     auto check_key = [this](int key) {
         return m_input_manager.check_key(key);
     };
     move_main_update(m_registry, check_key, dt);
-    shoot_update(dt);
+    shoot_update(current_time);
 }
 
 entt::entity dhoot::player_actions_system::shoot_bullet(glm::vec3 initial_pos) {
@@ -62,10 +62,14 @@ entt::entity dhoot::player_actions_system::shoot_bullet(glm::vec3 initial_pos) {
     m_registry.emplace<dhoot::movement>(made, dhoot::movement{.velocity = bullet_velocity});
     m_registry.emplace<asd_box::sprite_renderer>(
             made, asd_box::sprite_renderer{bullet_texture_path, bullet_color, bullet_size});
+    return made;
 }
 
-void dhoot::player_actions_system::shoot_update(float dt) {
-    if (m_input_manager.check_key_pressed(GLFW_KEY_X)) {
+void dhoot::player_actions_system::shoot_update(double current_time) {
+    if (m_input_manager.check_key(GLFW_KEY_X)
+        && m_last_shot_time + shoot_delay <= current_time) {
+        m_last_shot_time = current_time;
+
         for (auto&&[entity, main, transform] : m_registry.view<dhoot::main_character, asd_box::transform>().each()) {
             auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};
 

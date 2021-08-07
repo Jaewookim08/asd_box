@@ -30,7 +30,7 @@ void dhoot::game::update(float dt) {
     if (!m_paused) {
         m_time_manager.update(dt);
         m_graphics_system.update(dt);
-        m_player_actions_system.update(dt);
+        m_player_actions_system.update(dt, m_time_manager.current_time());
         m_physics_system.update(dt);
     }
 
