@@ -46,37 +46,38 @@ void dhoot::game::render() {
 }
 
 void dhoot::game::generate_test_entities() {
-    auto objects = std::array<entt::entity, 2>{};
-    m_registry.create(objects.begin(), objects.end());
 
-    for (int i = 0; i < 2; i++) {
-        m_registry.emplace<asd_box::transform>(objects[i],
-                                               asd_box::transform{glm::vec3{-100.f, 0.f, 0.f},
-                                                                  glm::identity<glm::quat>(),
-                                                                  glm::vec3{1.0, 1.0, 1.0}});
-//        m_registry.emplace<dhoot::movement>(objects[i], dhoot::movement{
-//            .friction = 5000.f,
-//        });
-
-        m_registry.emplace<asd_box::sprite_renderer>(objects[i],
-                                                     asd_box::sprite_renderer{"awesomeface.png",
-                                                                              glm::vec<4, float>{1.0f * i, 1.f, 0.f,
-                                                                                                 1.f},
+    auto main_character = m_registry.create();
+    {
+        m_registry.emplace<asd_box::transform>(main_character,
+                                               asd_box::transform{glm::vec3{0.f, 0.f, 0.f},
+                                                                  glm::vec3{0.f, 0.f, glm::radians(45.f)}});
+        m_registry.emplace<asd_box::sprite_renderer>(main_character,
+                                                     asd_box::sprite_renderer{"main_character_inner_square.png",
                                                                               glm::vec2{50.f, 50.f}});
+        m_registry.emplace<dhoot::main_character>(main_character, dhoot::main_character{.speed = 500.f});
     }
 
 
-    asd_box::transform_handler{m_registry, objects[0]}.set_parent(objects[1]);
-    m_registry.emplace<dhoot::main_character>(objects[1], dhoot::main_character{.speed = 500.f});
+    auto main_character_outer_ring = m_registry.create();
+    {
+        m_registry.emplace<asd_box::transform>(main_character_outer_ring,
+                                               glm::vec3{0.f, 0.f, 0.f});
+        m_registry.emplace<asd_box::sprite_renderer>(main_character_outer_ring,
+                                                     asd_box::sprite_renderer{"main_character_outer_ring.png",
+                                                                              glm::vec2{50.f, 50.f}});
+        asd_box::transform_handler{m_registry, main_character_outer_ring}.set_parent(main_character);
+    }
 
     auto cam = m_registry.create();
-    m_registry.emplace<asd_box::transform>(cam,
-                                           asd_box::transform{glm::vec3{0.f, 0.f, 300.0f},
-                                                              glm::identity<glm::quat>(),
-                                                              glm::vec3{1.0, 1.0, 1.0}});
+    {
+        m_registry.emplace<asd_box::transform>(cam,
+                                               asd_box::transform{glm::vec3{0.f, 0.f, 300.0f},
+                                                                  glm::identity<glm::quat>(),
+                                                                  glm::vec3{1.0, 1.0, 1.0}});
 
 //        m_registry.emplace<camera>(cam, camera{perspective_camera{glm::radians(60.f), 800.f / 600.f, 0.1f, 100.f}});
-    {
+
         auto camera_half_width = static_cast<float>(m_screen_width) / 2;
         auto camera_half_heigth = static_cast<float>(m_screen_height) / 2;
 

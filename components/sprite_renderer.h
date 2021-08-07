@@ -14,7 +14,7 @@
 namespace asd_box {
     // Todo: depth 추가.
     struct sprite_renderer {
-        sprite_renderer(std::string texture_filepath, glm::vec4 color, glm::vec2 size);
+        sprite_renderer(std::string texture_filepath, glm::vec2 size, glm::vec4 color = glm::vec4{1.f});
 
         std::string texture_filepath;   // Todo: hash로 바꾼 다음 settings에 매핑 추가하자. 너무 메모리 많이 먹는다.
         glm::vec4 color;

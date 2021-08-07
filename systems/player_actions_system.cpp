@@ -61,7 +61,7 @@ entt::entity dhoot::player_actions_system::shoot_bullet(glm::vec3 initial_pos) {
     m_registry.emplace<asd_box::transform>(made, asd_box::transform{initial_pos});
     m_registry.emplace<dhoot::movement>(made, dhoot::movement{.velocity = bullet_velocity});
     m_registry.emplace<asd_box::sprite_renderer>(
-            made, asd_box::sprite_renderer{bullet_texture_path, bullet_color, bullet_size});
+            made, asd_box::sprite_renderer{bullet_texture_path, bullet_size, bullet_color});
     return made;
 }
 
