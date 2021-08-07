@@ -19,6 +19,9 @@ void dhoot::physics_system::update(float dt) {
         auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};
 
         transform_handler.translation_property += movement.velocity * dt;
+        auto av = movement.angular_velocity;
+        transform_handler.rotation_property =
+                glm::mix(glm::identity<decltype(av)>(), av, dt) * transform_handler.rotation_property.get();
     });
 
     // Apply friction

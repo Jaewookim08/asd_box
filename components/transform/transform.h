@@ -12,7 +12,7 @@
 
 namespace asd_box {
     // 주의: 다른 entity로 복사 시 m_children 비워 주고 m_parent의 child로 추가해야함. 어떻게 할 지는 좀 더 생각해 봐야 할 듯.
-    // Todo: 그냥 값 읽기만 하기는 여기로 옮기는 게 성능적으로 이득이 있을듯.
+    // Todo: 그냥 값 읽기만 하기는 여기로 옮기는 게 성능적으로 이득이 있을 듯.
     class transform {
         friend class transform_handler;
     public:

@@ -10,6 +10,7 @@
 namespace dhoot {
     struct movement {
         glm::vec3 velocity{0.f};
+        glm::quat angular_velocity{glm::identity<glm::quat>()};
         float friction{0.f};
     };
 }
