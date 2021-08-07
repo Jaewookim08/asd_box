@@ -50,6 +50,8 @@ namespace dhoot {
         dhoot::player_actions_system m_player_actions_system{m_registry, m_input_manager};
         dhoot::physics_system m_physics_system{m_registry};
         entt::registry m_registry{};
+
+        bool m_paused = false;
     };
 }
 

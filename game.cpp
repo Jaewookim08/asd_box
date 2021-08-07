@@ -23,10 +23,15 @@ void dhoot::game::framebuffer_size_event(int width, int height) {
 }
 
 void dhoot::game::update(float dt) {
-    m_graphics_system.update(dt);
-    m_player_actions_system.update(dt);
+    if (m_input_manager.check_key_pressed(GLFW_KEY_P)) {
+        m_paused = !m_paused;
+    }
 
-    m_physics_system.update(dt);
+    if (!m_paused) {
+        m_graphics_system.update(dt);
+        m_player_actions_system.update(dt);
+        m_physics_system.update(dt);
+    }
 
     m_input_manager.next_frame();
 }

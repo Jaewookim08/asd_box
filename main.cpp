@@ -27,6 +27,7 @@ static constexpr unsigned int initial_screen_height = 600;
 
 dhoot::game* running_game;
 
+// Todo: anti aliasing이 안 먹는 것 같다. 왤까.
 int main(int argc, char* argv[]) {
     // Basic glfw/glad initializations
     init_glfw();
