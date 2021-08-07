@@ -12,6 +12,7 @@
 #include <systems/input_manager.h>
 #include <systems/player_actions_system.h>
 #include <systems/physics_system.h>
+#include <systems/time_manager.h>
 
 namespace dhoot {
     class game {
@@ -50,6 +51,7 @@ namespace dhoot {
         dhoot::player_actions_system m_player_actions_system{m_registry, m_input_manager};
         dhoot::physics_system m_physics_system{m_registry};
         entt::registry m_registry{};
+        asd_box::time_manager m_time_manager{};
 
         bool m_paused = false;
     };

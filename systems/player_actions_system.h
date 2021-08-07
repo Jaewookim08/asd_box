@@ -15,6 +15,7 @@ namespace dhoot {
         static constexpr auto bullet_texture_path = "white.png";
         static constexpr auto bullet_color = glm::vec4{0.f, 0.f, 0.f, 1.f};
         static constexpr auto bullet_size = glm::vec2{8.f, 20.f};
+        static constexpr auto shoot_delay = 0.25f;
 
     public:
         player_actions_system(entt::registry& registry,
