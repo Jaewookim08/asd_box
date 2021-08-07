@@ -69,7 +69,7 @@ void dhoot::game::generate_test_entities() {
         m_registry.emplace<dhoot::movement>(main_character_outer_ring,
                                             dhoot::movement{.angular_velocity=glm::vec3{0.f, 0.f, 10000}});
 
-//        asd_box::transform_handler{m_registry, main_character_outer_ring}.set_parent(main_character);
+        asd_box::transform_handler{m_registry, main_character_outer_ring}.set_parent(main_character);
     }
 
     auto cam = m_registry.create();
