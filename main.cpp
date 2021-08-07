@@ -22,8 +22,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void init_glfw();
 
-static constexpr unsigned int initial_screen_width = 800;
-static constexpr unsigned int initial_screen_height = 600;
+static constexpr unsigned int initial_screen_width = 600;
+static constexpr unsigned int initial_screen_height = 800;
 
 dhoot::game* running_game;
 
@@ -41,9 +41,9 @@ int main(int argc, char* argv[]) {
 
 
     // create game object
-    running_game = new dhoot::game{};
+    running_game = new dhoot::game{initial_screen_width, initial_screen_height};
     running_game->generate_test_entities();
-    running_game->initialize_screen(initial_screen_width, initial_screen_height);
+    running_game->initialize_screen();
 
     // bind callbacks
     glfwSetKeyCallback(window, key_callback);

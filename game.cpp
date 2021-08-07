@@ -37,8 +37,8 @@ void dhoot::game::update(float dt) {
     m_input_manager.next_frame();
 }
 
-void dhoot::game::initialize_screen(int initial_screen_width, int initial_screen_height) {
-    m_graphics_system.initialize_gl_settings(initial_screen_width, initial_screen_height);
+void dhoot::game::initialize_screen() {
+    m_graphics_system.initialize_gl_settings(m_screen_width, m_screen_height);
 }
 
 void dhoot::game::render() {
@@ -64,6 +64,8 @@ void dhoot::game::generate_test_entities() {
                                                                                                  1.f},
                                                                               glm::vec2{50.f, 50.f}});
     }
+
+
     asd_box::transform_handler{m_registry, objects[0]}.set_parent(objects[1]);
     m_registry.emplace<dhoot::main_character>(objects[1], dhoot::main_character{.speed = 500.f});
 
@@ -74,8 +76,14 @@ void dhoot::game::generate_test_entities() {
                                                               glm::vec3{1.0, 1.0, 1.0}});
 
 //        m_registry.emplace<camera>(cam, camera{perspective_camera{glm::radians(60.f), 800.f / 600.f, 0.1f, 100.f}});
-    m_registry.emplace<asd_box::camera>(cam, asd_box::camera{
-            asd_box::orthographic_camera{-400.0f, 400.0f, -300.0f, 300.0f, 1.f, 1000.f}});
+    {
+        auto camera_half_width = static_cast<float>(m_screen_width) / 2;
+        auto camera_half_heigth = static_cast<float>(m_screen_height) / 2;
+
+        m_registry.emplace<asd_box::camera>(cam, asd_box::camera{
+                asd_box::orthographic_camera{-camera_half_width, camera_half_width,
+                                             -camera_half_heigth, camera_half_heigth, 1.f, 1000.f}});
+    }
 
     {
         auto sm = asd_box::save_manager{};
@@ -84,9 +92,12 @@ void dhoot::game::generate_test_entities() {
     }
 }
 
-dhoot::game::game()
-        : m_registry{},
-          m_graphics_system{m_registry, Shader{texture_vshader_name, texture_fshader_name}} {
+dhoot::game::game(int screen_width, int screen_height) :
+        m_registry{},
+        m_graphics_system{m_registry, Shader{texture_vshader_name, texture_fshader_name}},
+        m_screen_width{screen_width},
+        m_screen_height{screen_height} {
 }
+
 
 

@@ -22,7 +22,7 @@ namespace dhoot {
         static constexpr auto texture_fshader_name = "shaders/sprite.fsh";
 
     public:
-        game();
+        game(int screen_width, int screen_height);
 
         game(const game& other) = delete;
 
@@ -32,7 +32,7 @@ namespace dhoot {
 
         game& operator=(game&& other) = delete;
 
-        void initialize_screen(int initial_screen_width, int initial_screen_height);
+        void initialize_screen();
 
         void generate_test_entities();
 
@@ -45,6 +45,8 @@ namespace dhoot {
         void render();
 
     private:
+        const int m_screen_width;
+        const int m_screen_height;
 
         asd_box::input_manager m_input_manager{};
         asd_box::graphics_system m_graphics_system;

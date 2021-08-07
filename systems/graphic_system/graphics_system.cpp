@@ -83,10 +83,10 @@ void graphics_system::initialize_gl_settings(int initial_screen_width,
     glEnable(GL_MULTISAMPLE);
 }
 
-void asd_box::graphics_system::framebuffer_size_event(int width,
-                                                      int height) { // NOLINT(readability-convert-member-functions-to-static)
-    glViewport(0, 0, width, height);
-}
+//void asd_box::graphics_system::framebuffer_size_event(int width,
+//                                                      int height) { // NOLINT(readability-convert-member-functions-to-static)
+//    glViewport(0, 0, width, height);
+//}
 
 
 static void draw_sprites(entt::registry& registry, asd_box::gl_texture_cache& texture_cache, const Shader& shader,
@@ -112,15 +112,6 @@ static void draw_sprites(entt::registry& registry, asd_box::gl_texture_cache& te
         shader.use();
         shader.setVec4("color", sprite_renderer.color);
 
-//        test
-//        auto a = view_matrix * transform.get_world_transform_matrix(registry);
-//        auto b = projection_matrix * a;
-//
-//        auto aa = a * glm::vec4{0, 0, 0, 1};
-//        auto bb = b * glm::vec4{-1.f, 0, 0, 1};
-//
-//        std::cout << bb << '\n';
-
         auto transform_handler = asd_box::transform_handler{registry, entity, transform};
         shader.setMat4("uModelViewMatrix", view_matrix * transform_handler.get_world_transform_matrix());
         shader.setMat4("uProjectionMatrix", projection_matrix);
@@ -132,7 +123,7 @@ static void draw_sprites(entt::registry& registry, asd_box::gl_texture_cache& te
 }
 
 void asd_box::graphics_system::render() {
-    glClearColor(1.f, 1.f, 1.f, 1.f);
+    glClearColor(background_color.r, background_color.g, background_color.b, background_color.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for (auto&&[camera_entity, camera_transform, camera]: m_registry.view<asd_box::transform, asd_box::camera>().each()) {
@@ -145,13 +136,6 @@ void asd_box::graphics_system::render() {
 }
 
 void asd_box::graphics_system::update(float dt) {
-    // Temp
-    for (auto&&[entity, transform, sprite]: m_registry.view<asd_box::transform, asd_box::sprite_renderer>().each()) {
-//        auto euler_rot = glm::eulerAngles(transform.rotation);
-//        auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};
-//
-//        transform_handler.rotation_property = (glm::rotate(transform_handler.rotation_property.get(), 3.f * dt, glm::vec3{0, 0, 1}));
-    }
 }
 
 
