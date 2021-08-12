@@ -76,7 +76,7 @@ void dhoot::player_actions_system::shoot_update(float dt, double current_time) {
             return current_time;
         }();
 
-        for (auto&&[entity, main, transform] : m_registry.view<dhoot::main_character, asd_box::transform>().each()) {
+        for (auto&&[entity, main, transform] : m_registry.group<dhoot::main_character>(entt::get<asd_box::transform>).each()) {
             auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};
 
             shoot_bullet(transform_handler.get_translation() - glm::vec3{0.f, 0.f, 2.f});

@@ -15,7 +15,7 @@ dhoot::physics_system::physics_system(entt::registry& registry)
 
 void dhoot::physics_system::update(float dt) {
     // Apply velocity
-    m_registry.view<asd_box::transform, dhoot::movement>().each([&](auto entity, auto& transform, auto& movement) {
+    m_registry.group<dhoot::movement>(entt::get<asd_box::transform>).each([&](auto entity, auto& movement, auto& transform) {
         auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};
 
         transform_handler.translation_property += movement.velocity * dt;

@@ -126,7 +126,7 @@ void asd_box::graphics_system::render() {
     glClearColor(background_color.r, background_color.g, background_color.b, background_color.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for (auto&&[camera_entity, camera_transform, camera]: m_registry.view<asd_box::transform, asd_box::camera>().each()) {
+    for (auto&&[camera_entity, camera_transform, camera]: m_registry.group<asd_box::transform, asd_box::camera>().each()) {
         auto transform_handler = asd_box::transform_handler{m_registry, camera_entity, camera_transform};
         auto view_matrix = glm::inverse(transform_handler.get_world_transform_matrix());
         auto projection_matrix = camera.get_projection_matrix();
