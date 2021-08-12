@@ -11,6 +11,7 @@
 #include "components/camera.h"
 #include <glm/ext.hpp>
 #include <components/transform/transform_handler.h>
+#include <components/bullet_renderer.h>
 
 using asd_box::graphics_system;
 
@@ -27,9 +28,10 @@ namespace {
 
 }
 
-asd_box::graphics_system::graphics_system(entt::registry& registry, Shader texture_shader) :
+asd_box::graphics_system::graphics_system(entt::registry& registry, Shader texture_shader, Shader bullet_shader) :
         m_registry{registry},
-        m_texture_shader{std::move(texture_shader)}, // NOLINT(performance-move-const-arg)
+        m_texture_shader{std::move(texture_shader)},  // NOLINT(performance-move-const-arg)
+        m_bullet_shader{std::move(bullet_shader)}, // NOLINT(performance-move-const-arg)
         m_draw_texture_vao{gl_generate_vertex_arrays()} {
 
 
@@ -92,16 +94,12 @@ void graphics_system::initialize_gl_settings(int initial_screen_width,
 static void draw_sprites(entt::registry& registry, asd_box::gl_texture_cache& texture_cache, const Shader& shader,
                          unsigned int vao, const glm::mat4& view_matrix, const glm::mat4& projection_matrix) {
 
-    for (auto&&[entity, transform, sprite_renderer]: registry.view<asd_box::transform, asd_box::sprite_renderer>().each()) {
+    for (auto&&[entity, sprite_renderer, transform]: registry.group<asd_box::sprite_renderer>(entt::get<asd_box::transform>).each()) {
         // load texture
         const auto& filepath = sprite_renderer.texture_filepath;
-        auto& texture_handle = sprite_renderer.texture_handle;
-        texture_handle = texture_handle ? texture_handle :
-                         texture_cache.load<asd_box::gl_texture_loader>(entt::hashed_string{filepath.c_str()},
-                                                                        filepath);
-
+        auto texture_handle = sprite_renderer.get_texture_handle(texture_cache);
         if (!texture_handle) {
-            throw std::runtime_error("Failed to get texture texture_handle");
+            throw std::runtime_error("Failed to get texture handle");
         }
 
         // render texture
@@ -122,16 +120,52 @@ static void draw_sprites(entt::registry& registry, asd_box::gl_texture_cache& te
     }
 }
 
+static void draw_bullets(entt::registry& registry, asd_box::gl_texture_cache& texture_cache, const Shader& shader,
+                         unsigned int vao, const glm::mat4& view_matrix, const glm::mat4& projection_matrix) {
+
+    for (auto&&[entity, bullet_renderer, transform]: registry.group<dhoot::bullet_renderer>(entt::get<asd_box::transform>).each()) {
+
+        auto&& sprite_renderer = bullet_renderer.sprite_renderer;
+        auto&& texture_handle = sprite_renderer.get_texture_handle(texture_cache);
+        if (!texture_handle) {
+            throw std::runtime_error("Failed to get texture handle");
+        }
+
+        // render texture
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture_handle->texture_id);
+
+        shader.use();
+        shader.setVec4("color", sprite_renderer.color);
+
+        auto transform_handler = asd_box::transform_handler{registry, entity, transform};
+        shader.setMat4("uModelViewMatrix", view_matrix * transform_handler.get_world_transform_matrix());
+        shader.setMat4("uProjectionMatrix", projection_matrix);
+        shader.setVec2("uSpriteSize", sprite_renderer.size);
+        // Todo: sprite_renderer 사용 부분 묶어서 함수로. 코드 겹침.
+
+        shader.setMat4("uLocalTransformMatrix", transform_handler.get_transform_matrix());
+        shader.setVec3("uStartPosition", bullet_renderer.start_local_position);
+        shader.setVec3("uNormalizedStripeDirection", bullet_renderer.shoot_direction);
+        shader.setFloat("uStripeWhiteWidth", 6);
+        shader.setFloat("uStripeBlackWidth", 9);
+        glBindVertexArray(vao);
+
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    }
+}
+
 void asd_box::graphics_system::render() {
     glClearColor(background_color.r, background_color.g, background_color.b, background_color.a);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for (auto&&[camera_entity, camera_transform, camera]: m_registry.group<asd_box::transform, asd_box::camera>().each()) {
+    for (auto&&[camera_entity, camera, camera_transform]: m_registry.group<asd_box::camera>(entt::get<asd_box::transform>).each()) {
         auto transform_handler = asd_box::transform_handler{m_registry, camera_entity, camera_transform};
         auto view_matrix = glm::inverse(transform_handler.get_world_transform_matrix());
         auto projection_matrix = camera.get_projection_matrix();
 
         draw_sprites(m_registry, m_texture_cache, m_texture_shader, m_draw_texture_vao, view_matrix, projection_matrix);
+        draw_bullets(m_registry, m_texture_cache, m_bullet_shader, m_draw_texture_vao, view_matrix, projection_matrix);
     }
 }
 

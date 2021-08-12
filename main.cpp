@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
     // Basic glfw/glad initializations
     init_glfw();
 
-    GLFWwindow* window = glfwCreateWindow(initial_screen_width, initial_screen_height, "Hello World!", nullptr,
+    GLFWwindow* window = glfwCreateWindow(initial_screen_width, initial_screen_height, "Dhoot", nullptr,
                                           nullptr);
     glfwMakeContextCurrent(window);
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {

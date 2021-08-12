@@ -20,10 +20,14 @@ namespace asd_box {
         glm::vec4 color;
         glm::vec2 size;
 
-        entt::resource_handle<gl_texture> texture_handle; // texture handle cache
+        entt::resource_handle<asd_box::gl_texture> get_texture_handle(asd_box::gl_texture_cache& texture_cache);
+        // Todo: texture_filepath 바뀔 경우 캐시 폐기해야 함.
 
         template<class Archive>
         void serialize(Archive & ar);
+
+    private:
+        entt::resource_handle<asd_box::gl_texture> m_texture_handle; // texture handle cache
     };
     template<class Archive>
     void sprite_renderer::serialize(Archive& ar) {

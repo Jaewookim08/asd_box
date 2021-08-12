@@ -99,7 +99,10 @@ void dhoot::game::generate_test_entities() {
 
 dhoot::game::game(int screen_width, int screen_height) :
         m_registry{},
-        m_graphics_system{m_registry, Shader{texture_vshader_name, texture_fshader_name}},
+        m_graphics_system{
+                m_registry,
+                Shader{texture_vshader_name, texture_fshader_name},
+                Shader{bullet_vshader_name, bullet_fshader_name}},
         m_screen_width{screen_width},
         m_screen_height{screen_height} {
 }

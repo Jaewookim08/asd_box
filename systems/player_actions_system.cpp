@@ -12,6 +12,7 @@
 #include <glm/gtx/norm.hpp>
 #include <iostream>
 #include <components/sprite_renderer.h>
+#include <components/bullet_renderer.h>
 
 
 namespace {
@@ -60,8 +61,11 @@ entt::entity dhoot::player_actions_system::shoot_bullet(glm::vec3 initial_pos) {
     auto made = m_registry.create();
     m_registry.emplace<asd_box::transform>(made, asd_box::transform{initial_pos});
     m_registry.emplace<dhoot::movement>(made, dhoot::movement{.velocity = bullet_velocity});
-    m_registry.emplace<asd_box::sprite_renderer>(
-            made, asd_box::sprite_renderer{bullet_texture_path, bullet_size, bullet_color});
+    m_registry.emplace<dhoot::bullet_renderer>(
+            made, dhoot::bullet_renderer{
+                asd_box::sprite_renderer{bullet_texture_path, bullet_size, bullet_color},
+                initial_pos,
+                glm::normalize(bullet_velocity)});
     return made;
 }
 

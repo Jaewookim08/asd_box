@@ -21,6 +21,8 @@ namespace dhoot {
         // Todo: Settings import. setting 클래스 만든 다음 cereal로 불러 오지 뭐.
         static constexpr auto texture_vshader_name = "shaders/sprite.vsh";
         static constexpr auto texture_fshader_name = "shaders/sprite.fsh";
+        static constexpr auto bullet_vshader_name = "shaders/bullet.vsh";
+        static constexpr auto bullet_fshader_name = "shaders/bullet.fsh";
 
     public:
         game(int screen_width, int screen_height);

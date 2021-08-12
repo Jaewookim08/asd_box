@@ -18,7 +18,7 @@ namespace asd_box {
     class graphics_system {
         static constexpr auto background_color = glm::vec4{0.f, 0.f, 0.f, 1.f};
     public:
-        explicit graphics_system(entt::registry& registry, Shader texture_shader);
+        explicit graphics_system(entt::registry& registry, Shader texture_shader, Shader bullet_shader);
 
         void initialize_gl_settings(int initial_screen_width, int initial_screen_height);
 
@@ -30,6 +30,7 @@ namespace asd_box {
     private:
         entt::registry& m_registry;
         const Shader m_texture_shader;
+        const Shader m_bullet_shader;
         const unsigned int m_draw_texture_vao;
         gl_texture_cache m_texture_cache{};
     };
