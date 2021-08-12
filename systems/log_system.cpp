@@ -13,6 +13,6 @@ void asd_box::log_system::update() {
     }
 }
 
-asd_box::log_system::log_system(const entt::registry& registry,const asd_box::time_manager& time_manager) :
+asd_box::log_system::log_system(const entt::registry& registry,const asd_box::time_system& time_manager) :
         m_time_manager{time_manager}, m_registry{registry} {
 }

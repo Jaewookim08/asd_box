@@ -2,13 +2,13 @@
 // Created by jaewoo on 21. 8. 7..
 //
 
-#ifndef ASD_BOX_TIME_MANAGER_H
-#define ASD_BOX_TIME_MANAGER_H
+#ifndef ASD_BOX_TIME_SYSTEM_H
+#define ASD_BOX_TIME_SYSTEM_H
 
 #include <queue>
 
 namespace asd_box {
-    class time_manager {
+    class time_system {
         static constexpr auto recent_frames_save_count = 10;
     public:
         void update(float dt);
@@ -22,4 +22,4 @@ namespace asd_box {
 }
 
 
-#endif //ASD_BOX_TIME_MANAGER_H
+#endif //ASD_BOX_TIME_SYSTEM_H

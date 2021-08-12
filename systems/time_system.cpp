@@ -2,10 +2,10 @@
 // Created by jaewoo on 21. 8. 7..
 //
 
-#include "time_manager.h"
+#include "time_system.h"
 #include <iostream>
 
-void asd_box::time_manager::update(float dt) {
+void asd_box::time_system::update(float dt) {
     m_current_time += dt;
 
     m_recent_frames_time_queue.push(m_current_time);
@@ -15,11 +15,11 @@ void asd_box::time_manager::update(float dt) {
 
 }
 
-double asd_box::time_manager::current_time() const {
+double asd_box::time_system::current_time() const {
     return m_current_time;
 }
 
-float asd_box::time_manager::get_fps() const{
+float asd_box::time_system::get_fps() const{
     if (m_recent_frames_time_queue.size() <= 1) {
         return 0.f;
     }
