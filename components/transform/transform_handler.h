@@ -16,11 +16,11 @@ namespace asd_box {
 
         transform_handler(entt::registry& registry, entt::entity entity);
 
-        [[nodiscard]]glm::vec3 get_translation() const;
+        [[nodiscard]] glm::vec3 get_translation() const;
 
-        [[nodiscard]]glm::quat get_rotation() const;
+        [[nodiscard]] glm::quat get_rotation() const;
 
-        [[nodiscard]]glm::vec3 get_scale() const;
+        [[nodiscard]] glm::vec3 get_scale() const;
 
         void set_translation(glm::vec3 translation);
 
@@ -28,10 +28,15 @@ namespace asd_box {
 
         void set_scale(glm::vec3 scale);
 
+        [[nodiscard]] glm::vec3 get_world_translation() const;
 
-        [[nodiscard]] glm::mat4 get_transform_matrix();
+        [[nodiscard]] glm::quat get_world_rotation() const;
 
-        [[nodiscard]] glm::mat4 get_world_transform_matrix();
+        [[nodiscard]] glm::vec3 get_world_scale() const;
+
+        [[nodiscard]] glm::mat4 get_transform_matrix() const;
+
+        [[nodiscard]] glm::mat4 get_world_transform_matrix() const;
 
         asd_box::tools::member_property<transform_handler,
                 &transform_handler::get_translation, &transform_handler::set_translation>

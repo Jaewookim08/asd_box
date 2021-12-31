@@ -4,6 +4,7 @@
 
 #include "transform_handler.h"
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 
 
 asd_box::transform_handler::transform_handler(entt::registry& registry, entt::entity entity,
@@ -16,14 +17,14 @@ asd_box::transform_handler::transform_handler(entt::registry& registry, entt::en
 }
 
 
-glm::mat4 asd_box::transform_handler::get_transform_matrix() {
+glm::mat4 asd_box::transform_handler::get_transform_matrix() const{
     static constexpr auto identity = glm::mat4{1.f};
     return glm::translate(identity, m_transform.m_translation) * glm::mat4{m_transform.m_rotation} *
            glm::scale(identity, m_transform.m_scale);
     // Todo: 최적화.
 }
 
-glm::mat4 asd_box::transform_handler::get_world_transform_matrix() {
+glm::mat4 asd_box::transform_handler::get_world_transform_matrix() const{
     if (m_transform.m_dirty_flag) {
         auto parent = m_transform.m_parent;
         auto parent_transform_matrix = (m_registry.valid(parent)) ?
@@ -85,5 +86,28 @@ void asd_box::transform_handler::set_dirty() {
         }
     }
     m_transform.m_dirty_flag = true;
+}
+namespace {
+    std::tuple<glm::vec3, glm::quat, glm::vec3> decompose_matrix(const glm::mat4& matrix) {
+        glm::vec3 translation;
+        glm::vec3 scale;
+        glm::quat rotation;
+        glm::vec3 skew;
+        glm::vec4 perspective;
+        glm::decompose(matrix, scale, rotation, translation, skew, perspective);
+        rotation = glm::conjugate(rotation);
+        return std::tuple{translation, rotation, scale};
+    }
+}
+glm::vec3 asd_box::transform_handler::get_world_translation() const {
+    return std::get<0>(decompose_matrix(get_world_transform_matrix()));
+}
+
+glm::quat asd_box::transform_handler::get_world_rotation() const {
+    return std::get<1>(decompose_matrix(get_world_transform_matrix()));
+}
+
+glm::vec3 asd_box::transform_handler::get_world_scale() const {
+    return std::get<2>(decompose_matrix(get_world_transform_matrix()));
 }
 
