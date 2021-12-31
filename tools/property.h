@@ -34,34 +34,34 @@ namespace asd_box::tools {
         };
 
         member_property& operator += (auto && val){
-            *this = get() + val;
+            return *this = get() + val;
         }
         member_property& operator -= (auto && val){
-            *this = get() - val;
+            return *this = get() - val;
         }
         member_property& operator *= (auto && val){
-            *this = get() * val;
+            return *this = get() * val;
         }
         member_property& operator /= (auto && val){
-            *this = get() / val;
+            return *this = get() / val;
         }
         member_property& operator %= (auto && val){
-            *this = get() % val;
+            return *this = get() % val;
         }
         member_property& operator &= (auto && val){
-            *this = get() & val;
+            return *this = get() & val;
         }
         member_property& operator |= (auto && val){
-            *this = get() | val;
+            return *this = get() | val;
         }
         member_property& operator ^= (auto && val){
-            *this = get() ^ val;
+            return *this = get() ^ val;
         }
         member_property& operator <<= (auto && val){
-            *this = get() << val;
+            return *this = get() << val;
         }
         member_property& operator >>= (auto && val){
-            *this = get() >> val;
+            return *this = get() >> val;
         }
 
         operator decltype(auto) () const {
