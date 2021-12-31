@@ -27,54 +27,61 @@ static constexpr unsigned int initial_screen_height = 800;
 
 dhoot::game* running_game;
 
+void print_nested_exception(const std::exception& e, int level = 0);
+
 // Todo: anti aliasing이 안 먹는 것 같다. 왤까.
 int main(int argc, char* argv[]) {
     // Basic glfw/glad initializations
-    init_glfw();
+    try {
 
-    GLFWwindow* window = glfwCreateWindow(initial_screen_width, initial_screen_height, "Dhoot", nullptr,
-                                          nullptr);
-    glfwMakeContextCurrent(window);
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
-        throw std::runtime_error("Failed to initialize GLAD");
-    }
+        init_glfw();
 
-
-    // create game object
-    running_game = new dhoot::game{initial_screen_width, initial_screen_height};
-    running_game->generate_test_entities();
-    running_game->initialize_screen();
-
-    // bind callbacks
-    glfwSetKeyCallback(window, key_callback);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+        GLFWwindow* window = glfwCreateWindow(initial_screen_width, initial_screen_height, "Dhoot", nullptr,
+                                              nullptr);
+        glfwMakeContextCurrent(window);
+        if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+            throw std::runtime_error("Failed to initialize GLAD");
+        }
 
 
-    // delta_time variables
-    // -------------------
-    auto delta_time = 0.0f;
-    auto last_frame_time = static_cast<float>(glfwGetTime());
+        // create game object
+        running_game = new dhoot::game{initial_screen_width, initial_screen_height};
+        running_game->generate_test_entities();
+        running_game->initialize_screen();
 
-    while (!glfwWindowShouldClose(window)) {
-        // calculate delta time
-        // --------------------
-        auto current_frame_time = static_cast<float>(glfwGetTime());
-        delta_time = current_frame_time - last_frame_time;
-        last_frame_time = current_frame_time;
+        // bind callbacks
+        glfwSetKeyCallback(window, key_callback);
+        glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 
-        glfwPollEvents();
-        running_game->update(delta_time);
+        // delta_time variables
+        // -------------------
+        auto delta_time = 0.0f;
+        auto last_frame_time = static_cast<float>(glfwGetTime());
 
-        running_game->render();
-        glfwSwapBuffers(window);
-    }
+        while (!glfwWindowShouldClose(window)) {
+            // calculate delta time
+            // --------------------
+            auto current_frame_time = static_cast<float>(glfwGetTime());
+            delta_time = current_frame_time - last_frame_time;
+            last_frame_time = current_frame_time;
 
-    // delete all resources as loaded using the resource manager
-    // ---------------------------------------------------------
+
+            glfwPollEvents();
+            running_game->update(delta_time);
+
+            running_game->render();
+            glfwSwapBuffers(window);
+        }
+
+        // delete all resources as loaded using the resource manager
+        // ---------------------------------------------------------
 //    ResourceManager::Clear();
 
-    glfwTerminate();
+        glfwTerminate();
+    } catch (const std::exception& e) {
+        print_nested_exception(e);
+    }
     return 0;
 }
 
@@ -102,4 +109,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     assert(running_game != nullptr);
     running_game->framebuffer_size_event(width, height);
+}
+
+void print_nested_exception(const std::exception& e, int level) {
+    std::cerr << std::string(level, ' ') << "exception: " << e.what() << '\n';
+    try {
+        std::rethrow_if_nested(e);
+    } catch (const std::exception& e) {
+        print_nested_exception(e, level + 1);
+    } catch (...) {}
 }
