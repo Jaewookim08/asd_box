@@ -14,6 +14,7 @@
 #include <systems/physics_system.h>
 #include <systems/time_system.h>
 #include <systems/log_system.h>
+#include <systems/bound_system.h>
 
 namespace dhoot {
     class game {
@@ -58,6 +59,7 @@ namespace dhoot {
         entt::registry m_registry{};
         asd_box::time_system m_time_system{};
         asd_box::log_system m_log_system{m_registry, m_time_system};
+        dhoot::bound_system m_bound_system;
 
         bool m_paused = false;
     };

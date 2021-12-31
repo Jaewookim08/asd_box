@@ -11,8 +11,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/norm.hpp>
 #include <iostream>
-#include <components/sprite_renderer.h>
-#include <components/bullet_renderer.h>
+#include "components/sprite_renderer.h"
+#include "components/bullet_renderer.h"
+#include "components/bounded.h"
 
 
 namespace {
@@ -66,6 +67,7 @@ entt::entity dhoot::player_actions_system::shoot_bullet(glm::vec3 initial_pos) {
                 asd_box::sprite_renderer{bullet_texture_path, bullet_size, bullet_color},
                 initial_pos,
                 glm::normalize(bullet_velocity)});
+    m_registry.emplace<dhoot::bounded>(made, bounded_screen{0.f});
     return made;
 }
 

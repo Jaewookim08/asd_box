@@ -17,7 +17,7 @@ add_executable(dhoot main.cpp systems/graphic_system/graphics_system.cpp systems
         components/main_character.h systems/player_actions_system.cpp systems/player_actions_system.h
         components/movement.h systems/physics_system.cpp systems/physics_system.h
         systems/time_system.cpp systems/time_system.h systems/log_system.cpp systems/log_system.h
-        components/bullet_renderer.cpp components/bullet_renderer.h)
+        components/bullet_renderer.cpp components/bullet_renderer.h components/bounded.h systems/bound_system.cpp systems/bound_system.h)
 
 find_package(OpenGL REQUIRED)
 

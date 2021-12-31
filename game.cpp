@@ -32,6 +32,7 @@ void dhoot::game::update(float dt) {
         m_graphics_system.update(dt);
         m_player_actions_system.update(dt, m_time_system.current_time());
         m_physics_system.update(dt);
+        m_bound_system.update(dt);
         m_log_system.update();
     }
 
@@ -104,7 +105,10 @@ dhoot::game::game(int screen_width, int screen_height) :
                 Shader{texture_vshader_name, texture_fshader_name},
                 Shader{bullet_vshader_name, bullet_fshader_name}},
         m_screen_width{screen_width},
-        m_screen_height{screen_height} {
+        m_screen_height{screen_height},
+        m_bound_system{m_registry,
+                       glm::vec2{-static_cast<float>(m_screen_width) / 2, -static_cast<float>(m_screen_height)},
+                       glm::vec2{static_cast<float>(m_screen_width) / 2, static_cast<float>(m_screen_height)}} {
 }
 
 
