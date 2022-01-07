@@ -5,6 +5,7 @@ project(asd_box VERSION 1.0
 
 set(CMAKE_CXX_STANDARD 20)
 
+
 add_executable(dhoot main.cpp systems/graphic_system/graphics_system.cpp systems/graphic_system/graphics_system.h
         game.cpp game.h components/transform/transform.cpp components/transform/transform.h
         tools/texture.cpp tools/texture.h tools/stb_image.cpp
@@ -26,5 +27,8 @@ add_subdirectory(submodules/glad)
 add_subdirectory(submodules/glm)
 add_subdirectory(submodules/entt)
 
+option(BOX2D_BUILD_TESTBED "Build the Box2D testbed" OFF)
+add_subdirectory(submodules/box2d)
+
 target_include_directories(dhoot PRIVATE ./ ./tools ${OPENGL_INCLUDE_DIRS} ./external)
-target_link_libraries(dhoot PRIVATE glfw glad glm EnTT::EnTT)
+target_link_libraries(dhoot PRIVATE glfw glad glm EnTT::EnTT box2d)

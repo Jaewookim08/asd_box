@@ -10,3 +10,6 @@
 [submodule "submodules/entt"]
 	path = submodules/entt
 	url = https://github.com/skypjack/entt.git
+[submodule "submodules/box2d"]
+	path = submodules/box2d
+	url = git@github.com:erincatto/box2d.git
