@@ -59,7 +59,7 @@ namespace dhoot {
         dhoot::physics_system m_physics_system{m_registry};
         entt::registry m_registry{};
         asd_box::time_system m_time_system{};
-        asd_box::log_system m_log_system{m_registry, m_time_system};
+        asd_box::log_system m_log_system{m_registry};
         asd_box::box2d::box2d_system m_box2d_system{m_registry};
         dhoot::bound_system m_bound_system;
 

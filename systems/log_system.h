@@ -12,11 +12,10 @@ namespace asd_box {
     class log_system {
         static constexpr auto log_delay = 0.3f;
     public:
-        log_system(const entt::registry& registry, const asd_box::time_system& time_manager);
-        void update();
+        explicit log_system(const entt::registry& registry);
+        void update(double current_time, float fps);
 
     private:
-        const asd_box::time_system& m_time_manager;
         const entt::registry& m_registry;
         double last_log_time = 0;
     };
