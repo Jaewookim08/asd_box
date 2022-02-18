@@ -15,6 +15,14 @@ void box2d_system::update(asd_box::time dt) {
     m_world.Step(dt.val, velocity_iterations, position_iterations);
 }
 
-body& box2d_system::add_body(entt::entity entity, const asd_box::box2d::box2d_system::body_def_t* body_def) {
-    throw std::runtime_error{"Todo"};
+body& box2d_system::add_body(entt::entity entity, const body_def_t* body_def) {
+    if (m_registry.all_of<body>(entity)) {
+        throw std::runtime_error{"Cannot add body to the entity. Entity already has a body."};
+    }
+
+    return m_registry.emplace<body>(entity, body{&m_world, body_def});
+}
+
+void asd_box::box2d::box2d_system::remove_body(entt::entity entity) {
+    m_registry.remove<body>(entity);
 }

@@ -21,6 +21,7 @@ namespace asd_box::box2d {
         void update(asd_box::time dt);
 
         body& add_body(entt::entity entity, const body_def_t* body_def);
+        void remove_body(entt::entity entity);
 
     private:
         static constexpr int velocity_iterations = 8;

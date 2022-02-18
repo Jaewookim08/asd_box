@@ -11,7 +11,7 @@
 namespace asd_box::box2d {
     class body {
     public:
-        explicit body(b2World* world, b2BodyDef* body_def);
+        explicit body(b2World* world, const b2BodyDef* body_def);
 
         [[nodiscard]] b2Body* get_raw() const;
 

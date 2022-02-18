@@ -6,7 +6,7 @@
 
 using asd_box::box2d::body;
 
-body::body(b2World* world, b2BodyDef* body_def): m_b2Body_ptr{world->CreateBody(body_def), body_deleter{world}} {}
+body::body(b2World* world, const b2BodyDef* body_def): m_b2Body_ptr{world->CreateBody(body_def), body_deleter{world}} {}
 
 b2Body* body::get_raw() const{
     return m_b2Body_ptr.get();
