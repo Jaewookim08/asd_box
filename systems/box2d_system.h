@@ -9,6 +9,7 @@
 #include <entt/entt.hpp>
 #include <utility>
 #include "components/box2d/body.h"
+#include "tools/time_type.h"
 
 namespace asd_box::box2d {
     class box2d_system {
@@ -17,7 +18,7 @@ namespace asd_box::box2d {
 
         explicit box2d_system(entt::registry& registry);
 
-        void update(float dt);
+        void update(asd_box::time dt);
 
         body& add_body(entt::entity entity, const body_def_t* body_def);
 

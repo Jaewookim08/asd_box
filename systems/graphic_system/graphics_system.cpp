@@ -169,7 +169,7 @@ void asd_box::graphics_system::render() {
     }
 }
 
-void asd_box::graphics_system::update(float dt) {
+void asd_box::graphics_system::update(asd_box::time dt) {
 }
 
 

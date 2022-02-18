@@ -68,7 +68,7 @@ int main(int argc, char* argv[]) {
 
 
             glfwPollEvents();
-            running_game->update(delta_time);
+            running_game->update(asd_box::time{delta_time});
 
             running_game->render();
             glfwSwapBuffers(window);

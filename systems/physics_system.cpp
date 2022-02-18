@@ -13,21 +13,22 @@ dhoot::physics_system::physics_system(entt::registry& registry)
         : m_registry{registry} {
 }
 
-void dhoot::physics_system::update(float dt) {
+void dhoot::physics_system::update(asd_box::time dt) {
     // Apply velocity
-    m_registry.group<dhoot::movement>(entt::get<asd_box::transform>).each([&](auto entity, auto& movement, auto& transform) {
-        auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};
+    m_registry.group<dhoot::movement>(entt::get<asd_box::transform>).each(
+            [&](auto entity, auto& movement, auto& transform) {
+                auto transform_handler = asd_box::transform_handler{m_registry, entity, transform};
 
-        transform_handler.translation_property += movement.velocity * dt;
-        auto av = movement.angular_velocity;
-        transform_handler.rotation_property =
-                glm::mix(glm::identity<decltype(av)>(), av, dt) * transform_handler.rotation_property.get();
-    });
+                transform_handler.translation_property += movement.velocity * dt.val;
+                auto av = movement.angular_velocity;
+                transform_handler.rotation_property =
+                        glm::mix(glm::identity<decltype(av)>(), av, dt.val) * transform_handler.rotation_property.get();
+            });
 
     // Apply friction
     m_registry.view<dhoot::movement>().each([&](dhoot::movement& movement) {
         auto&& velocity = movement.velocity;
-        auto friction = movement.friction * dt;
+        auto friction = movement.friction * dt.val;
         if (friction < 0.0000001f) {
             return;
         }

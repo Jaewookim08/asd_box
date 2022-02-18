@@ -7,7 +7,7 @@
 
 #include <entt/entt.hpp>
 #include <iostream>
-#include "texture.h"
+#include "tools/texture.h"
 #include "resource_loaders/gl_texture_loader.h"
 #include <glm/glm.hpp>
 

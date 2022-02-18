@@ -8,7 +8,7 @@
 #include <string>
 #include <glm/glm.hpp>
 #include <entt/entt.hpp>
-#include <gl_texture.h>
+#include <tools/gl_texture.h>
 #include "sprite_renderer.h"
 
 namespace dhoot{

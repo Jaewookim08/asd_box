@@ -18,7 +18,9 @@ add_executable(dhoot main.cpp systems/graphic_system/graphics_system.cpp systems
         components/main_character.h systems/player_actions_system.cpp systems/player_actions_system.h
         components/movement.h systems/physics_system.cpp systems/physics_system.h
         systems/time_system.cpp systems/time_system.h systems/log_system.cpp systems/log_system.h
-        components/bullet_renderer.cpp components/bullet_renderer.h components/bounded.h systems/bound_system.cpp systems/bound_system.h systems/box2d_system.cpp systems/box2d_system.h components/box2d/body.h components/box2d/body.cpp)
+        components/bullet_renderer.cpp components/bullet_renderer.h components/bounded.h systems/bound_system.cpp
+        systems/bound_system.h systems/box2d_system.cpp systems/box2d_system.h components/box2d/body.h
+        components/box2d/body.cpp tools/time_type.h)
 
 find_package(OpenGL REQUIRED)
 
@@ -30,5 +32,5 @@ add_subdirectory(submodules/entt)
 option(BOX2D_BUILD_TESTBED "Build the Box2D testbed" OFF)
 add_subdirectory(submodules/box2d)
 
-target_include_directories(dhoot PRIVATE ./ ./tools ${OPENGL_INCLUDE_DIRS} ./external)
+target_include_directories(dhoot PRIVATE ./  ${OPENGL_INCLUDE_DIRS} ./external)
 target_link_libraries(dhoot PRIVATE glfw glad glm EnTT::EnTT box2d)

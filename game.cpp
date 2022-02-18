@@ -22,13 +22,13 @@ void dhoot::game::framebuffer_size_event(int width, int height) {
 
 }
 
-void dhoot::game::update(float dt) {
+void dhoot::game::update(asd_box::time dt) {
     if (m_input_manager.check_key_pressed(GLFW_KEY_P)) {
         m_paused = !m_paused;
     }
 
     if (!m_paused) {
-        m_time_system.update(dt);
+        m_time_system.update(asd_box::time{dt});
         m_graphics_system.update(dt);
         m_player_actions_system.update(dt, m_time_system.current_time());
         m_physics_system.update(dt);

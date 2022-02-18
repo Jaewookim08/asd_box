@@ -14,10 +14,11 @@
 #include "components/sprite_renderer.h"
 #include "components/bullet_renderer.h"
 #include "components/bounded.h"
+#include "tools/time_type.h"
 
 
 namespace {
-    void move_main_update(entt::registry& registry, auto check_key, float dt) {
+    void move_main_update(entt::registry& registry, auto check_key, asd_box::time dt) {
         auto move_vec = glm::vec2{0.f};
 
         if (check_key(GLFW_KEY_LEFT)) {
@@ -38,7 +39,7 @@ namespace {
 
         for (auto&&[entity, main, transform] : registry.view<dhoot::main_character, asd_box::transform>().each()) {
             auto transform_handler = asd_box::transform_handler{registry, entity, transform};
-            transform_handler.translation_property += glm::vec3{move_vec, 0.f} * main.speed * dt;
+            transform_handler.translation_property += glm::vec3{move_vec, 0.f} * main.speed * dt.val;
         }
     }
 }
@@ -48,7 +49,7 @@ dhoot::player_actions_system::player_actions_system(entt::registry& registry,
         m_registry{registry}, m_input_manager{input_manager} {
 }
 
-void dhoot::player_actions_system::update(float dt, double current_time) {
+void dhoot::player_actions_system::update(asd_box::time dt, asd_box::time current_time) {
 //    std::cout << dt << '\n';
 
     auto check_key = [this](int key) {
@@ -71,7 +72,7 @@ entt::entity dhoot::player_actions_system::shoot_bullet(glm::vec3 initial_pos) {
     return made;
 }
 
-void dhoot::player_actions_system::shoot_update(float dt, double current_time) {
+void dhoot::player_actions_system::shoot_update(asd_box::time dt, asd_box::time current_time) {
     if (auto shoot_able_time = m_last_shot_time + shoot_delay;
             m_input_manager.check_key(GLFW_KEY_X)
                     && shoot_able_time <= current_time) {

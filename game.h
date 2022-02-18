@@ -16,6 +16,7 @@
 #include <systems/time_system.h>
 #include <systems/log_system.h>
 #include <systems/bound_system.h>
+#include "tools/time_type.h"
 
 namespace dhoot {
     class game {
@@ -45,7 +46,7 @@ namespace dhoot {
 
         void framebuffer_size_event(int width, int height);
 
-        void update(float dt);
+        void update(asd_box::time dt);
 
         void render();
 

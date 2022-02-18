@@ -7,12 +7,13 @@
 
 #include <entt/entt.hpp>
 #include <glm/glm.hpp>
+#include "tools/time_type.h"
 
 namespace dhoot {
     class bound_system {
     public:
         explicit bound_system(entt::registry& registry, glm::vec2 screen_bottom_left, glm::vec2 screen_top_right);
-        void update(float dt);
+        void update(asd_box::time dt);
     private:
         glm::vec2 m_screen_bottom_left;
         glm::vec2 m_screen_top_right;

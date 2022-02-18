@@ -11,7 +11,8 @@
 #include <string>
 #include <entt/entt.hpp>
 #include <resource_loaders/gl_texture_loader.h>
-#include "learnopengl/shader.h"
+#include "tools/learnopengl/shader.h"
+#include "tools/time_type.h"
 
 namespace asd_box {
 
@@ -24,7 +25,7 @@ namespace asd_box {
 
 //        void framebuffer_size_event(int width, int height);
 
-        void update(float dt);
+        void update(asd_box::time dt);
 
         void render();
     private:

@@ -3,9 +3,9 @@
 //
 
 #include "time_system.h"
-#include <iostream>
 
-void asd_box::time_system::update(float dt) {
+
+void asd_box::time_system::update(time dt) {
     m_current_time += dt;
 
     m_recent_frames_time_queue.push(m_current_time);
@@ -15,7 +15,7 @@ void asd_box::time_system::update(float dt) {
 
 }
 
-double asd_box::time_system::current_time() const {
+asd_box::time asd_box::time_system::current_time() const {
     return m_current_time;
 }
 
@@ -24,6 +24,6 @@ float asd_box::time_system::get_fps() const{
         return 0.f;
     }
 
-    auto diff = static_cast<float>(m_recent_frames_time_queue.back() - m_recent_frames_time_queue.front());
-    return static_cast<float>(m_recent_frames_time_queue.size() - 1) / diff;
+    auto diff = m_recent_frames_time_queue.back() - m_recent_frames_time_queue.front();
+    return static_cast<float>(m_recent_frames_time_queue.size() - 1) / diff.val;
 }

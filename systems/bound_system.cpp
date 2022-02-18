@@ -20,7 +20,7 @@ namespace {
     template<class... Ts> overloaded(Ts...) -> overloaded<Ts...>;
 }
 
-void dhoot::bound_system::update(float dt) {
+void dhoot::bound_system::update(asd_box::time dt) {
     m_registry.view<asd_box::transform, dhoot::bounded>().each(
             [&](entt::entity entity, const asd_box::transform& transform, const dhoot::bounded& bounded) {
                 auto transform_handler = asd_box::transform_handler{m_registry, entity};

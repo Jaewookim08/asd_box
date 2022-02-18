@@ -6,7 +6,7 @@
 #define ASD_BOX_GL_TEXTURE_LOADER_H
 
 #include <entt/entt.hpp>
-#include <gl_texture.h>
+#include <tools/gl_texture.h>
 
 namespace asd_box {
     struct gl_texture_loader final : entt::resource_loader<gl_texture_loader, gl_texture> {
