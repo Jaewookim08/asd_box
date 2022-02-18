@@ -34,6 +34,7 @@ void dhoot::game::update(float dt) {
         m_physics_system.update(dt);
         m_bound_system.update(dt);
         m_log_system.update();
+        m_box2d_system.update(dt);
     }
 
     m_input_manager.next_frame();

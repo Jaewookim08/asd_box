@@ -8,6 +8,7 @@
 
 #include <string>
 #include "systems/graphic_system/graphics_system.h"
+#include "systems/box2d_system.h"
 #include <entt/entt.hpp>
 #include <systems/input_manager.h>
 #include <systems/player_actions_system.h>
@@ -59,6 +60,7 @@ namespace dhoot {
         entt::registry m_registry{};
         asd_box::time_system m_time_system{};
         asd_box::log_system m_log_system{m_registry, m_time_system};
+        asd_box::box2d::box2d_system m_box2d_system{m_registry};
         dhoot::bound_system m_bound_system;
 
         bool m_paused = false;

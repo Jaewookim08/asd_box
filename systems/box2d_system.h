@@ -6,14 +6,27 @@
 #define ASD_BOX_BOX2D_SYSTEM_H
 
 #include <box2d/box2d.h>
+#include <entt/entt.hpp>
+#include <utility>
+#include "components/box2d/body.h"
 
-namespace asd_box {
+namespace asd_box::box2d {
     class box2d_system {
     public:
-        box2d_system() = default;
+        using body_def_t = b2BodyDef;
+
+        explicit box2d_system(entt::registry& registry);
+
+        void update(float dt);
+
+        body& add_body(entt::entity entity, const body_def_t* body_def);
 
     private:
-        b2World world{b2Vec2_zero};
+        static constexpr int velocity_iterations = 8;
+        static constexpr int position_iterations = 3;
+
+        b2World m_world{b2Vec2_zero};
+        entt::registry& m_registry;
     };
 }
 
