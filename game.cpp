@@ -59,6 +59,10 @@ void dhoot::game::generate_test_entities() {
                                                      asd_box::sprite_renderer{"main_character_inner_square.png",
                                                                               glm::vec2{50.f, 50.f}});
         m_registry.emplace<dhoot::main_character>(main_character, dhoot::main_character{.speed = 500.f});
+        auto body_def = b2BodyDef{};
+
+
+//        m_box2d_system.add_body(main_character, )
     }
 
 
